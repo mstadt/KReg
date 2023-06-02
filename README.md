@@ -1,2 +1,3 @@
-# KReg
-updated K+ regulation model
+# K+ regulation model
+
+Updated K+ regulation model
