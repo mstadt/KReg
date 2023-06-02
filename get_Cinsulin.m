@@ -1,4 +1,5 @@
 function C_insulin = get_Cinsulin(t_insulin)
+      % C_insulin unites are nanomole/L
     % C_insulin units are nanomole/L
     if (t_insulin <= 0)
         %    disp('between meal')

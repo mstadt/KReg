@@ -49,6 +49,7 @@ alt_sim = false; % use alternate equations
 do_insulin = true;
 do_FF = true;
 MKX = 0;
+Kintake = 0;
 for i = 1:2:length(varargin)
     temp = varargin{i+1};
     if strcmp(varargin{i}, 'SS')
@@ -62,6 +63,8 @@ for i = 1:2:length(varargin)
         do_insulin = temp(1);
     elseif strcmp(varargin{i}, 'do_FF')
         do_FF = temp(1);
+    elseif strcmp(varargin{i}, 'Kintake')
+        Kintake = temp(1);
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -101,7 +104,7 @@ dydt(5) = (1/T_al)*(N_als - N_al);
 if SS
     Phi_Kin = Phi_Kin_ss;
 else
-    Phi_Kin = 0;
+    Phi_Kin = Kintake;
 end
 K_intake   = (1-fecal_excretion)*Phi_Kin;
 Gut2plasma = kgut*M_Kgut;
@@ -170,6 +173,9 @@ ins_A = A_insulin; ins_B = 100*B_insulin;
 temp = (ins_A.*(L./(1+exp(-k.*(log10(C_insulin)-log10(x0)))))+ ins_B)./100;
 if do_insulin
     rho_insulin = max(1.0,temp);
+%     disp(C_insulin)
+%     disp(temp)
+%     disp(rho_insulin)
 else
     rho_insulin = 1;
 end
