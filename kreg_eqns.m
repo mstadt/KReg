@@ -1,15 +1,7 @@
 function dydt = kreg_eqns(t,y,params,varargin)
 % K regulation model equations
 
-%% get variable inputs
-SS = 1; % set to steady state
-MKX = 0; % 1: dtK sec, 2: cdK sec, 3: cdK reab
-if SS
-    C_insulin = 22.6/1000;
-end
-%  TO DO!
-
-% variable names
+%% variable names
 M_Kgut    = y(1); % amount of K in gut
 M_Kplas   = y(2); % amount of K in plasma
 M_Kinter  = y(3); % amount of K in interstitial space
@@ -17,7 +9,7 @@ M_Kmuscle = y(4); % amount of K in muscle
 N_al      = y(5); % normalized ALD concentration
 
 
-% set parameter names
+%% set parameter names
 Phi_Kin_ss = params(1);
 t_insulin_ss = params(2);
 tchange = params(3);
@@ -54,50 +46,25 @@ B_insulin = params(31);
 % default settings, varargin is used to change settings
 SS = false; % compute SS solution
 alt_sim = false; % use alternate equations
-
-% intake arguments 
-Kin.Kin_type = 'gut_Kin3'; %'gut_Kin'; % 'step_Kin2';
-Kin.Meal     = 0;
-Kin.KCL      = 0;
-
 do_insulin = true;
 do_FF = true;
 MKX = 0;
-MealInfo.t_breakfast = 7; % default breakfast is at 7 am
-MealInfo.t_lunch = 13; % default lunch is at 1 pm
-MealInfo.t_dinner = 19; % default dinner is at 7 pm
-MealInfo.K_amount = 35; % default K ingestions is 35mEq per meal
-MealInfo.meal_type = 'normal';
+Kintake = 0;
 for i = 1:2:length(varargin)
+    temp = varargin{i+1};
     if strcmp(varargin{i}, 'SS')
-        SS = varargin{i+1};
-    elseif strcmp(varargin{i}, 'MealInfo')
-        temp = varargin{i+1};
-        MealInfo.t_breakfast = temp{1};
-        MealInfo.t_lunch = temp{2};
-        MealInfo.t_dinner = temp{3};
-        MealInfo.K_amount = temp{4};
-        MealInfo.meal_type = temp{5};
-    elseif strcmp(varargin{i}, 'Kin_type')
-        temp = varargin{i+1};
-        Kin.Kin_type = temp{1};
-        Kin.Meal     = temp{2};
-        Kin.KCL      = temp{3};
+        SS = temp;
     elseif strcmp(varargin{i}, 'alt_sim')
-        alt_sim = varargin{i+1};
+        alt_sim = temp;
     elseif strcmp(varargin{i}, 'do_MKX')
-        temp = varargin{i+1};
         MKX = temp(1);
         MKslope = temp(2);
     elseif strcmp(varargin{i}, 'do_insulin')
-        temp = varargin{i+1};
         do_insulin = temp(1);
-        A_insulin = temp(2);
-        B_insulin = temp(3);
     elseif strcmp(varargin{i}, 'do_FF')
-        temp = varargin{i+1};
         do_FF = temp(1);
-        FF = temp(2);
+    elseif strcmp(varargin{i}, 'Kintake')
+        Kintake = temp(1);
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -105,11 +72,18 @@ for i = 1:2:length(varargin)
     end % if
 end %for
 
-% Get Phi_Kin and t_insulin
-[Phi_Kin, t_insulin] = get_PhiKin(t, SS, t_insulin_ss, Phi_Kin_ss, Kin, MealInfo);
 
 % set insulin level
-C_insulin = get_Cinsulin(t_insulin, MealInfo, Kin);
+if do_insulin
+    if SS
+        t_insulin = t_insulin_ss;
+    else
+        t_insulin = t;
+    end
+    C_insulin = get_Cinsulin(t_insulin);
+else
+    C_insulin = 22.6/1000; % steady state insulin
+end
 
 
 %% model equations
@@ -127,8 +101,11 @@ N_als = xi_ksod;
 dydt(5) = (1/T_al)*(N_als - N_al);
 
 %% Gut K (M_Kgut)
-% Idea: do Phi_Kin as a dose... or can just move this variable up as a
-% "dose" in the model instead!
+if SS
+    Phi_Kin = Phi_Kin_ss;
+else
+    Phi_Kin = Kintake;
+end
 K_intake   = (1-fecal_excretion)*Phi_Kin;
 Gut2plasma = kgut*M_Kgut;
 dydt(1) = K_intake - Gut2plasma;
@@ -143,7 +120,11 @@ gamma_al = A_dtKsec * C_al.^B_dtKsec;
 lambda_al = A_cdKsec * C_al.^B_cdKsec;
 
 % GI feedforward effect
-gamma_Kin = max(1, FF*(M_Kgut - MKgutSS));
+if do_FF
+    gamma_Kin = max(1, FF*(M_Kgut - MKgutSS));
+else
+    gamma_Kin = 1;
+end
 
 % muscle-kidney crosstalk
 if MKX > 0
@@ -190,7 +171,14 @@ rho_al = (66.4 + 0.273*C_al)./89.6050;
 L = 100; x0 = 0.5381; k = 1.069;
 ins_A = A_insulin; ins_B = 100*B_insulin;
 temp = (ins_A.*(L./(1+exp(-k.*(log10(C_insulin)-log10(x0)))))+ ins_B)./100;
-rho_insulin = max(1.0,temp);
+if do_insulin
+    rho_insulin = max(1.0,temp);
+%     disp(C_insulin)
+%     disp(temp)
+%     disp(rho_insulin)
+else
+    rho_insulin = 1;
+end
 eta_NKA = rho_insulin * rho_al;
 
 Inter2Muscle = eta_NKA* ((Vmax * K_inter)/(Km + K_inter));
