@@ -1,3 +1,5 @@
+% Plots 2 outputs from driverMeal.m
+
 clear all;
 %% load data
 f1 = './MealSim/OriginalModel_MealOnly.mat';

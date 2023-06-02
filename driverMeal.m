@@ -1,3 +1,5 @@
+% Run 1 meal based on the User Input
+% Save output to ./MealSim/
 clear all;
 %--------------------
 % User input
@@ -40,7 +42,8 @@ fprintf('solving ODEs \n')
                             tspan, IC, options);
 
 %% add a meal with glucose
-t0 = 0; % NOTE: need to restart t to get insulin dynamics, shift later
+% NOTE: need to restart t from 0 to get insulin dynamics, shift later
+t0 = 0; 
 tf = t0 + 30;
 tspan = [t0, tf];
 IC = y1(end,:);
