@@ -27,7 +27,6 @@ tspan = [t0, tf];
 options = odeset('RelTol',1.0e-6,'AbsTol',1e-9); % ode solver settings
 
 % simulation settings
-
 do_insulin = 0; % set to 1 when doing meal
 do_FF      = 1; % set to 1 unless no FF effect
 alt_sim    = 0; % only if have other options
