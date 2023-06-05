@@ -42,6 +42,7 @@ CNT_len       = 0.4; % cm
 Fr_CNT        = 0.6; % fraction of CNT luminal surface area covered by secreting cells
 CNT_volume  = pi*((CNT_diam/2)^2)*CNT_len;
 CNT_lumen_K_conc0 = 0.0072; % mEq/ml, calcNormParams.R
+eta_vol_CNT = 0.7; % fractional vol reabsorption
 
 % CCD
 CCD_diam      = 0.0025; % cm
@@ -49,8 +50,14 @@ CCD_len       = 0.2; % cm
 Fr_CCD        = 0.6; % fraction of CCD luminal surface area covered by secreting cells
 CCD_volume  = pi*((CCD_diam/2)^2)*CCD_len;
 CCD_lumen_K_conc0 = 0.032; % mEq/ml, calcNormParams.R
+eta_vol_CCD = 0.75; % fractional volume reabsorption in CCD
 
-
+% MCD
+m_plasK_MCD = 8.83e-7; % unitless, NOTE: this was in Maddah code, not table
+K_plas0     = 4.2/1000;   % mEq/mL, normal plasma K concentration
+Kreab_MCD0  = 7.293333e-09; % mEq/min
+Nareab_MCD0 = 0.625/N_nephs; %3.125e-7; % mEq/min
+m_NaK_MCD   = 0.69775; %min/mEq
 %% renal handling
 % filtration
 filK = (GFR/N_nephs)*Kplas; % K filtration, Eq 1
@@ -93,13 +100,60 @@ J_DCT_act_baso = ((-2/3)*J_NKAmax*...
 
 J_DCT_baso = J_DCT_pass_baso + J_DCT_act_baso; % Eq 9, DCT
 
+DCT_vol_out = LoH_vol_out*(1-eta_vol_DCT);
+DCT_K_out   = DCT_lumen_Kcon * DCT_vol_out;
+
 
 %% CNT
 CNT_cell_Kcon_ss = 0.15; % model code (runToEqulibrium.R)
 CNT_lumen_Kamt_ss = CNT_lumen_K_conc0 * CNT_volume;
 
+CNT_lumen_Kcon = CNT_lumen_Kamt_ss/CNT_volume;
+
+J_CNT_lumen = (h_L * v_L * (1/(1-exp(-v_L)))*...
+                           (CNT_cell_Kcon_ss*exp(-v_L) - CNT_lumen_Kcon)); % eq 7, CNT
+J_CNT_pass_baso = (h_B*v_B*(1/(1-exp(-v_B)))*...
+                                (Kplas - CNT_cell_Kcon_ss * exp(-v_B))); % eq 10, CNT
+
+CNT_K_Na = (0.2*(1+CNT_cell_Kcon_ss/8.33)); % eq 13, CNT
+ 
+J_CNT_act_baso = ((-2/3)*J_NKAmax*...
+                        (cell_Naconc/(cell_Naconc - CNT_K_Na))^3*...
+                         (Kplas/(Kplas + K_K))^2); % eq 12, CNT
+
+J_CNT_baso = (J_CNT_pass_baso + J_CNT_act_baso); % eq 9, CNT
+
+CNT_vol_out = DCT_vol_out*(1-eta_vol_CNT);
+CNT_K_out = CNT_lumen_Kcon * CNT_vol_out;
+
 %% CCD
 CCD_cell_Kcon_ss = 0.15; % model code (runToEqulibrium.R)
 CCD_lumen_Kamt_ss = CCD_lumen_K_conc0 * CCD_volume;
 
+CCD_lumen_Kcon = CCD_lumen_Kamt_ss/CCD_volume;
 
+J_CCD_lumen = (h_L * v_L * (1/(1-exp(-v_L)))*...
+                           (CCD_cell_Kcon_ss*exp(-v_L) - CCD_lumen_Kcon)); % eq 7, CCD
+
+CCD_K_Na = (0.2*(1+CCD_cell_Kcon_ss/8.33)); % eq 13, CCD
+
+J_CCD_pass_baso = (h_B*v_B*(1/(1-exp(-v_B)))*...
+                                (Kplas - CCD_cell_Kcon_ss * exp(-v_B))); % eq 10, CCD
+
+J_CCD_act_baso = ((-2/3)*J_NKAmax*...
+                        (cell_Naconc/(cell_Naconc - CCD_K_Na))^3*...
+                         (Kplas/(Kplas + K_K))^2); % eq 12, CCD
+
+CCD_vol_out = (CNT_vol_out * (1-eta_vol_CCD));
+
+CCD_K_out = (CCD_lumen_Kcon * CCD_vol_out);
+
+Phi_Na_CCD_out = (0.5 * LoH_Na_out); % line 173 Maddah model code
+
+%% MCD (medullary collecting duct)
+K_MCD_effect = (max(0, exp(m_plasK_MCD * (K_plas0 - Kplas)/K_plas0) - 1));
+Phi_MCD_Nareab = max(0, Phi_Na_CCD_out - intake_Na/N_nephs);% eq 20, line 173
+Phi_MCD_Ksec = max(0, m_NaK_MCD * (Nareab_MCD0 - Phi_MCD_Nareab)); % eq 19, NOTE: line 178 Maddah code has reversed difference so using here
+Phi_MCD_Kreab_rate = (Kreab_MCD0 + K_MCD_effect + Phi_MCD_Ksec); % line 181 Maddah model code
+K_transport_MCD = min(Phi_MCD_Kreab_rate, CCD_K_out);
+Phi_K_out = (N_nephs*(CCD_K_out - K_transport_MCD)); % eq 21
