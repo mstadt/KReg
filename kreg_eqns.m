@@ -173,9 +173,9 @@ ins_A = A_insulin; ins_B = 100*B_insulin;
 temp = (ins_A.*(L./(1+exp(-k.*(log10(C_insulin)-log10(x0)))))+ ins_B)./100;
 if do_insulin
     rho_insulin = max(1.0,temp);
-%     disp(C_insulin)
-%     disp(temp)
-%     disp(rho_insulin)
+    %disp(C_insulin)
+    %disp(temp)
+    %disp(rho_insulin)
 else
     rho_insulin = 1;
 end

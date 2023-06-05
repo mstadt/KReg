@@ -4,9 +4,9 @@ clear all;
 %--------------------
 % User input
 %-------------------
-MealInsulin = 1; % set to 0 for no insulin
-Kamt = 0; %35; % amount of K in meal
-MKX = 0; MKXslope = 0;
+MealInsulin = 0; % set to 0 for no insulin
+Kamt = 35; %35; % amount of K in meal
+MKX = 0; MKXslope = 0; % muscle-kidney cross talk
 %-------------------
 %-------------------
 
@@ -41,6 +41,11 @@ fprintf('solving ODEs \n')
                             'Kintake', 0), ...
                             tspan, IC, options);
 
+vals1 = compute_vars(t1,y1,params,...
+                        'do_insulin', do_insulin,...
+                        'do_FF', do_FF,...
+                        'do_MKX', [MKX, MKXslope]);
+
 %% add a meal with glucose
 % NOTE: need to restart t from 0 to get insulin dynamics, shift later
 t0 = 0; 
@@ -57,9 +62,13 @@ do_insulin = MealInsulin; % add glucose componenent
                             'Kintake', Kintake), ...
                             tspan, IC, options);
 
+vals2 = compute_vars(t2,y2,params,...
+                        'do_insulin', do_insulin,...
+                        'do_FF', do_FF,...
+                        'do_MKX', [MKX, MKXslope]);
 % done K intake
 IC = y2(end,:);
-t0 = tspan(end);
+t0 = t2(end);
 tf = t0 + 1000 - 30;
 tspan = [t0, tf];
 Kintake = 0;
@@ -71,10 +80,14 @@ Kintake = 0;
                             'Kintake', Kintake), ...
                             tspan, IC, options);
 
-
 t2 = t2 + t1(end); % shift by t1
-t3 = t3 + t1(end); % shift by t1
+vals3 = compute_vars(t3,y3,params,...
+                        'do_insulin', do_insulin,...
+                        'do_FF', do_FF,...
+                        'do_MKX', [MKX, MKXslope]);
 
+
+t3 = t3 + t1(end); % shift by t1
 t = [t1;t2;t3];
 y = [y1;y2;y3];
 
@@ -174,6 +187,7 @@ title('Muscle K concentration', 'fontsize', f.title)
 grid on
 
 
+
 %% save simulations options
 save_sim = input('save simulation? (0/1) ');
 if save_sim
@@ -187,6 +201,7 @@ if save_sim
                 'pars', 'params', 'parnames',...
                 'Kamt', 'MealInsulin', 'MKX', 'MKXslope',...
                 'IC',...
+                'vals1', 'vals2', 'vals3',...
                 'options')
     fprintf('results saved to: \n %s \n', fname)
 end
