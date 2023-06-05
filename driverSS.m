@@ -12,12 +12,6 @@ pars = set_params();
 % change parameters here!
 
 %% set initial conditions
-% MKgut0    = 4.374; %4.4;
-% MKplas0   = 18.9248; %18.9;
-% MKinter0  = 42.055198; %42.1;
-% MKmuscle0 = 3104.2404; %3104.2;
-% Nal0      = 1.0;
-%IC = [MKgut0; MKplas0; MKinter0; MKmuscle0; Nal0];
 temp = load('./SS/SS1.mat');
 IC = temp.SS;
 

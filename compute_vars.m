@@ -79,9 +79,9 @@ if do_insulin
     else
         t_insulin = tvals;
     end
-    C_insulin = zeros(size(t_insulin));
-    for ii = 1:length(C_insulin)
-        C_insulin(ii) = get_Cinsulin(t_insulin(ii));
+    v.C_insulin = zeros(size(t_insulin));
+    for ii = 1:length(v.C_insulin)
+        v.C_insulin(ii) = get_Cinsulin(t_insulin(ii));
     end
 else
     v.C_insulin = ones(size(tvals)).*22.6/1000; % steady state insulin
@@ -127,7 +127,7 @@ if MKX == 1
 else
     v.eta_dtKsec = v.gamma_al .* v.gamma_Kin;
 end
-v.dtKsec = dtKsec_eq .*eta_etKsec;
+v.dtKsec = dtKsec_eq .* v.eta_dtKsec;
 
 % collecting duct
 if MKX == 2
@@ -149,15 +149,15 @@ v.cdKreab = dtK .* A_cdKreab.*v.eta_cdKreab;
 v.UrineK = dtK + v.cdKsec - v.cdKreab;
 
 % interstitial K
-v.rho_al = (66.4 + 0.273.*C_al)./89.6050;
+v.rho_al = (66.4 + 0.273.* v.C_al)./89.6050;
 % insulin
-L = 100*ones(size(C_insulin)); x0 = 0.5381 * ones(size(C_insulin)); k = 1.069;
-ins_A = A_insulin * ones(size(C_insulin)); ins_B = 100*B_insulin * ones(size(C_insulin));
-temp = (ins_A.*(L./(1+exp(-k.*(log10(C_insulin)-log10(x0)))))+ ins_B)./100;
+L = 100*ones(size(v.C_insulin)); x0 = 0.5381 * ones(size(v.C_insulin)); k = 1.069;
+ins_A = A_insulin * ones(size(v.C_insulin)); ins_B = 100*B_insulin * ones(size(v.C_insulin));
+temp = (ins_A.*(L./(1+exp(-k.*(log10(v.C_insulin)-log10(x0)))))+ ins_B)./100;
 if do_insulin
     v.rho_insulin = max(1.0, temp);
 else
-    v.rho_insulin = ones(size(C_insulin));
+    v.rho_insulin = ones(size(v.C_insulin));
 end
 v.eta_NKA = v.rho_insulin .* v.rho_al;
 
