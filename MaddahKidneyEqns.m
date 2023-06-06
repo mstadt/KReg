@@ -2,7 +2,7 @@
 %    Maddah et al 2022
 clear all;
 
-Kplas = 4.0/1000; % mEq/ml, plasma [K+] in mmol/mL
+Kplas = 4.2/1000; % mEq/ml, plasma [K+] in mmol/mL
 
 %% solve ODE
 % initial conditions
