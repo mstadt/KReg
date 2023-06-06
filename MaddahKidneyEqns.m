@@ -20,7 +20,7 @@ IC = [DCT_cell_Kcon0;
         CCD_cell_Kcon0;
         CCD_lumen_Kamt0];
 
-options = odeset('RelTol',1.0e-6,'AbsTol',1e-9); % ode solver settings
+options = odeset('RelTol',1.0e-6,'AbsTol',1e-12); % ode solver settings
 
 tspan = [0,4000];
 
