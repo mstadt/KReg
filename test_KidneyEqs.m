@@ -5,7 +5,6 @@
 %      matching what I need it to
 %  - I have this partially coded in K-QSP repo on my github
 
-
 % Maddah parameters
 GFR = 105; % ml/min, code
 N_nephs = 2e6; % count of nephrons, code/Table 1
