@@ -6,7 +6,7 @@ M_Kgut    = y(1); % amount of K in gut
 M_Kplas   = y(2); % amount of K in plasma
 M_Kinter  = y(3); % amount of K in interstitial space
 M_Kmuscle = y(4); % amount of K in muscle
-N_al      = y(5); % normalized ALD concentration
+%N_al      = y(5); % normalized ALD concentration
 
 
 %% set parameter names
@@ -38,9 +38,10 @@ ALD_eq = params(25);
 T_al = params(26);
 Csod = params(27);
 xi_par = params(28);
-FF = params(29);
-A_insulin = params(30);
-B_insulin = params(31);
+m_K_ALDO = params(29);
+FF = params(30);
+A_insulin = params(31);
+B_insulin = params(32);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -96,10 +97,11 @@ K_muscle  = M_Kmuscle/V_muscle; % intracellular K concentration
 K_ECFtot  = (M_Kplas + M_Kinter)/(V_plasma + V_interstitial); % total ECF concentration
 
 %% ALD (N_al)
-xi_ksod = max(0,((K_ECFtot/Csod)/(Kecf_total/144/(xi_par+1))-xi_par));
-N_als = xi_ksod;
-dydt(5) = (1/T_al)*(N_als - N_al);
-
+% xi_ksod = max(0,((K_ECFtot/Csod)/(Kecf_total/144/(xi_par+1))-xi_par));
+% N_als = xi_ksod;
+% dydt(5) = (1/T_al)*(N_als - N_al);
+N_al = exp(m_K_ALDO * (K_ECFtot - Kecf_total));
+%disp(N_al)
 %% Gut K (M_Kgut)
 if SS
     Phi_Kin = Phi_Kin_ss;

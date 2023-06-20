@@ -4,8 +4,8 @@ clear all;
 %--------------------
 % User input
 %-------------------
-MealInsulin = 0; % set to 0 for no insulin
-Kamt = 35; %35; % amount of K in meal
+MealInsulin = 1; % set to 0 for no insulin
+Kamt = 0; %35; % amount of K in meal
 MKX = 0; MKXslope = 0; % muscle-kidney cross talk
 %-------------------
 %-------------------

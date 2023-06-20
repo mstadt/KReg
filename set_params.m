@@ -52,6 +52,8 @@ pars.T_al = 60; % ALD half life (min)
 pars.Csod = 144; % sodium concentration mEq/L
 pars.xi_par = 2; %lower xi_pars makes C_al less sensitive
 
+pars.m_K_ALDO = 0.5; %951.2/1000; % adjust for mL to L
+
 %% effects
 pars.FF = 0.250274; 
 

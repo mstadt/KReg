@@ -5,13 +5,18 @@ m_Na_ALDO = 15.569;
 norm_plasma_K = 0.0042;
 
 pars = [norm_Aldo, m_K_ALDO, m_Na_ALDO, norm_plasma_K];
+pars2 = pars;
+pars2(2) = 100;
 
 Kplas_vals = 3.5:0.01:5.0;
 ALDO_vals = zeros(size(Kplas_vals));
+Cal_vals = zeros(size(Kplas_vals));
+ALDO_vals2 = zeros(size(Kplas_vals));
 for ii = 1:length(Kplas_vals)
     Kplas = Kplas_vals(ii);
     ALDO_vals(ii) = get_ALDO(Kplas/1000, pars);
     Cal_vals(ii) = get_Cal(Kplas);
+    ALDO_vals2(ii) = get_ALDO(Kplas/1000, pars2);
 end
 
 figure(25)
@@ -19,9 +24,10 @@ clf;
 plot(Kplas_vals, ALDO_vals/norm_Aldo, 'linewidth', 2)
 hold on
 plot(Kplas_vals, Cal_vals/85, 'linewidth', 2)
+plot(Kplas_vals, ALDO_vals2/norm_Aldo, 'linewidth', 2)
 xlabel('[K^+]_p (mmol/L)')
 ylabel('N_{al}')
-legend('Maddah', 'Stadt')
+legend('Maddah', 'Stadt', 'Maddah2')
 grid on
 
 

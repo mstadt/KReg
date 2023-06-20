@@ -7,7 +7,7 @@ MKgut_vals    = yvals(:,1); % amount of K in gut
 MKplas_vals   = yvals(:,2); % amount of K in plasma
 MKinter_vals  = yvals(:,3); % amount of K in interstitial space
 MKmuscle_vals = yvals(:,4); % amount of K in muscle
-Nal_vals      = yvals(:,5); % normalized ALD concentration
+%Nal_vals      = yvals(:,5); % normalized ALD concentration
 
 % set parameter names
 Phi_Kin_ss = params(1);
@@ -38,9 +38,10 @@ ALD_eq = params(25);
 T_al = params(26);
 Csod = params(27);
 xi_par = params(28);
-FF = params(29);
-A_insulin = params(30);
-B_insulin = params(31);
+m_K_ALDO = params(29);
+FF = params(30);
+A_insulin = params(31);
+B_insulin = params(32);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -94,14 +95,15 @@ v.K_muscle = MKmuscle_vals./V_muscle;
 v.K_ECFtot = (MKplas_vals + MKinter_vals)./(V_plasma + V_interstitial);
 
 % ALD
-v.xi_ksod = max(0,((v.K_ECFtot./Csod)./(Kecf_total/144/(xi_par+1))-xi_par));
-v.N_als = v.xi_ksod;
+%v.xi_ksod = max(0,((v.K_ECFtot./Csod)./(Kecf_total/144/(xi_par+1))-xi_par));
+%v.N_als = v.xi_ksod;
 
 % Gut K
 v.Gut2plasma = kgut.*MKgut_vals;
 
 % ALD impact
-v.C_al = Nal_vals .* ALD_eq;
+v.Nal_vals = exp(m_K_ALDO .* (v.K_ECFtot - Kecf_total));
+v.C_al = v.Nal_vals .* ALD_eq;
 v.gamma_al = A_dtKsec .* v.C_al .^B_dtKsec;
 v.lambda_al = A_cdKsec .* v.C_al.^B_cdKsec;
 

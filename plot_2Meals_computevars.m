@@ -2,14 +2,14 @@
 
 clear all;
 %% load data
-f1 = './MealSim/05-Jun-2023_driverMeal_insulin-0_Kin-35_notes-KClOnly_computevars.mat';
-f2 = './MealSim/05-Jun-2023_driverMeal_insulin-1_Kin-35_notes-MealKCl_computevars.mat';
+f1 = './MealSim/05-Jun-2023_driverMeal_insulin-1_Kin-0_notes-MealOnly_computevars.mat';
+f2 = './MealSim/20-Jun-2023_driverMeal_insulin-1_Kin-0_notes-MealOnly_newALDO.mat';
 
 dat1 = load(f1);
 dat2 = load(f2);
 
-lab1 = 'KCl Only';
-lab2 = 'Meal + KCl';
+lab1 = 'Meal Only';
+lab2 = 'Meal Only new aldo';
 
 %% make figures
 fprintf('making figures \n')
@@ -68,8 +68,11 @@ grid on
 
 subplot(nrows,ncols,5)
 hold on
+%Nal_vals1 = [dat1.vals1.Nal_vals; dat1.vals2.Nal_vals; dat1.vals3.Nal_vals];
 plot(dat1.t,dat1.y(:,5),'linewidth',lw,'color',c1, 'linestyle',ls1)
-plot(dat2.t,dat2.y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
+%plot(dat2.t,dat2.y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
+Nal_vals2 = [dat2.vals1.Nal_vals; dat2.vals2.Nal_vals; dat2.vals3.Nal_vals]; 
+plot(dat2.t,Nal_vals2, 'linewidth',lw,'color',c2,'linestyle',ls2)
 ylabel('N_{al}', 'fontsize', f.ylab)
 xlabel('t', 'fontsize', f.xlab)
 title('Normalized ALD', 'fontsize', f.title)
