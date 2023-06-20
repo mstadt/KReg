@@ -18,9 +18,6 @@ IC = temp.SS;
 %-----------------------------
 % End user input
 %-----------------------------
-
-
-
 % ODE options
 tspan = [0 4000];
 options = odeset('RelTol',1.0e-6,'AbsTol',1e-9);

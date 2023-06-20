@@ -7,7 +7,7 @@ Kplas = 4.2/1000; % mEq/ml, plasma [K+] in mmol/mL
 %% solve ODE
 % initial conditions
 DCT_cell_Kcon0   = 0.15;
-DCT_lumen_Kamt0  = 4.8597e-09;
+DCT_lumen_Kamt0  = 4.8597e-09; % DCT_volume * 0.0055
 CNT_cell_Kcon0   = 0.15;
 CNT_lumen_Kamt0  = 1.3029e-08;
 CCD_cell_Kcon0 = 0.15;
@@ -314,20 +314,20 @@ dydt = zeros(6,1);
 dydt(1) = (1/SV_DCT)*(J_DCT_baso - J_DCT_lumen);
 
 % d/dt(DCT_lumen_Kamt)
-dydt(2) =  LoH_K_out + J_DCT_lumen*DCT_area ...
+dydt(2) = 0; % LoH_K_out + J_DCT_lumen*DCT_area ...
                                 - DCT_lumen_Kcon * LoH_vol_out * (1-eta_vol_DCT); % eq 16, DCT
 
 % d/dt(CNT_cell_Kcon)
-dydt(3) = (1/SV_CNT)*(J_CNT_baso - J_CNT_lumen);
+dydt(3) = 0;  %(1/SV_CNT)*(J_CNT_baso - J_CNT_lumen);
 
 % d/dt(CNT_lumen_Kamt)
-dydt(4) = (DCT_K_out + J_CNT_lumen*CNT_area ...
-                 - CNT_lumen_Kcon * DCT_vol_out * (1-eta_vol_CNT)); % eq 16, DCT
+dydt(4) = 0; %(DCT_K_out + J_CNT_lumen*CNT_area ...
+                 %- CNT_lumen_Kcon * DCT_vol_out * (1-eta_vol_CNT)); % eq 16, DCT
 
 % d/dt(CCD_cell_Kcon)
-dydt(5) = (1/SV_CCD)*(J_CCD_baso - J_CCD_lumen);
+dydt(5) = 0; %(1/SV_CCD)*(J_CCD_baso - J_CCD_lumen);
 
 % d/dt(CCD_lumen_Kamt)
-dydt(6) = (CNT_K_out + J_CCD_lumen*CCD_area ...
-                 - CCD_lumen_Kcon * CNT_vol_out * (1-eta_vol_CCD)); % eq 16, CCD
+dydt(6) = 0; %(CNT_K_out + J_CCD_lumen*CCD_area ...
+                % - CCD_lumen_Kcon * CNT_vol_out * (1-eta_vol_CCD)); % eq 16, CCD
 end
