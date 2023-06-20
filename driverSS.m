@@ -12,7 +12,7 @@ pars = set_params();
 % change parameters here!
 
 %% set initial conditions
-temp = load('./SS/SS1.mat');
+temp = load('./SS/SS_4vars.mat');
 IC = temp.SS;
 
 %-----------------------------
@@ -75,12 +75,12 @@ xlabel('t', 'fontsize', f.xlab)
 title('Muscle K', 'fontsize', f.title)
 grid on
 
-subplot(nrows,ncols,5)
-plot(t,y(:,5),'linewidth',lw,'color',c1)
-ylabel('N_{al}', 'fontsize', f.ylab)
-xlabel('t', 'fontsize', f.xlab)
-title('Normalized ALD', 'fontsize', f.title)
-grid on
+% subplot(nrows,ncols,5)
+% plot(t,y(:,5),'linewidth',lw,'color',c1)
+% ylabel('N_{al}', 'fontsize', f.ylab)
+% xlabel('t', 'fontsize', f.xlab)
+% title('Normalized ALD', 'fontsize', f.title)
+% grid on
 
 % concentrations
 figure(2)

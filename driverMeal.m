@@ -16,8 +16,8 @@ pars = set_params();
 [params, parnames] = pars2vector(pars,0);
 
 %% set initial conditions
-temp = load('./SS/SS1.mat');
-SS = temp.SS(1:4);
+temp = load('./SS/SS_4vars.mat');
+SS = temp.SS;
 [IC, ~, ~] = getSS(SS, params, 'do_figs', 0); % start at SS
 
 %% Fasting state
