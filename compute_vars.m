@@ -7,7 +7,6 @@ MKgut_vals    = yvals(:,1); % amount of K in gut
 MKplas_vals   = yvals(:,2); % amount of K in plasma
 MKinter_vals  = yvals(:,3); % amount of K in interstitial space
 MKmuscle_vals = yvals(:,4); % amount of K in muscle
-%Nal_vals      = yvals(:,5); % normalized ALD concentration
 
 % set parameter names
 Phi_Kin_ss = params(1);

@@ -6,7 +6,6 @@ M_Kgut    = y(1); % amount of K in gut
 M_Kplas   = y(2); % amount of K in plasma
 M_Kinter  = y(3); % amount of K in interstitial space
 M_Kmuscle = y(4); % amount of K in muscle
-%N_al      = y(5); % normalized ALD concentration
 
 
 %% set parameter names
@@ -97,11 +96,9 @@ K_muscle  = M_Kmuscle/V_muscle; % intracellular K concentration
 K_ECFtot  = (M_Kplas + M_Kinter)/(V_plasma + V_interstitial); % total ECF concentration
 
 %% ALD (N_al)
-% xi_ksod = max(0,((K_ECFtot/Csod)/(Kecf_total/144/(xi_par+1))-xi_par));
-% N_als = xi_ksod;
-% dydt(5) = (1/T_al)*(N_als - N_al);
 N_al = exp(m_K_ALDO * (K_ECFtot - Kecf_total));
-%disp(N_al)
+C_al = N_al*ALD_eq;
+
 %% Gut K (M_Kgut)
 if SS
     Phi_Kin = Phi_Kin_ss;
@@ -117,7 +114,6 @@ dydt(1) = K_intake - Gut2plasma;
 Plas2ECF = P_ECF*(K_plas - K_inter);
 
 % ALD impact
-C_al = N_al*ALD_eq;
 gamma_al = A_dtKsec * C_al.^B_dtKsec;
 lambda_al = A_cdKsec * C_al.^B_cdKsec;
 

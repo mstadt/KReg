@@ -17,7 +17,8 @@ pars = set_params();
 
 %% set initial conditions
 temp = load('./SS/SS1.mat');
-[IC, ~, ~] = getSS(temp.SS, params, 'do_figs', 0); % start at SS
+SS = temp.SS(1:4);
+[IC, ~, ~] = getSS(SS, params, 'do_figs', 0); % start at SS
 
 %% Fasting state
 % ODE options
@@ -143,13 +144,13 @@ xlabel('t', 'fontsize', f.xlab)
 title('Muscle K', 'fontsize', f.title)
 grid on
 
-subplot(nrows,ncols,5)
-hold on
-plot(t,y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
-ylabel('N_{al}', 'fontsize', f.ylab)
-xlabel('t', 'fontsize', f.xlab)
-title('Normalized ALD', 'fontsize', f.title)
-grid on
+% subplot(nrows,ncols,5)
+% hold on
+% plot(t,y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
+% ylabel('N_{al}', 'fontsize', f.ylab)
+% xlabel('t', 'fontsize', f.xlab)
+% title('Normalized ALD', 'fontsize', f.title)
+% grid on
 
 % concentrations
 figure(2)
