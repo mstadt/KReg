@@ -62,6 +62,8 @@ for i = 1:2:length(varargin)
         do_FF = temp(1);
     elseif strcmp(varargin{i}, 'Kintake')
         Kintake = temp(1);
+    elseif strcmp(varargin{i}, 'meal_time')
+        meal_start = temp(1);
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -74,7 +76,7 @@ if do_insulin
     if SS
         t_insulin = t_insulin_ss.*ones(size(tvals));
     else
-        t_insulin = tvals;
+        t_insulin = tvals - meal_start;
     end
     v.C_insulin = zeros(size(t_insulin));
     for ii = 1:length(v.C_insulin)
