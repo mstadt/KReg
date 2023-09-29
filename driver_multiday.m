@@ -31,6 +31,7 @@ SS = temp.SS;
 % sim settings
 opts.do_insulin = MealInsulin;
 opts.do_FF = doFF; 
+opts.do_MKX = doMKX;
 if and(highKeff, day_effect <= 1)
     opts.do_highK = 1;
 else
