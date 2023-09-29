@@ -5,7 +5,7 @@ clear all;
 % User input
 %-------------------
 MealInsulin = 0; % set to 0 for no insulin
-Kamt = 35; %35; % amount of K in meal
+Kamt = 35; % amount of K in meal
 MKX = 0; MKXslope = 0; % muscle-kidney cross talk
 %-------------------
 %-------------------
@@ -16,13 +16,14 @@ pars = set_params();
 [params, parnames] = pars2vector(pars,0);
 
 %% set initial conditions
-temp = load('./SS/SS1.mat');
-[IC, ~, ~] = getSS(temp.SS, params, 'do_figs', 0); % start at SS
+temp = load('./SS/SS_4vars.mat');
+SS = temp.SS;
+[IC, ~, ~] = getSS(SS, params, 'do_figs', 0); % start at SS
 
 %% Fasting state
 % ODE options
 t0 = 0;
-tf = 510; % 6 hours of fasting
+tf = 6*60; % 6 hours of fasting
 tspan = [t0, tf];
 options = odeset('RelTol',1.0e-6,'AbsTol',1e-9); % ode solver settings
 
@@ -143,13 +144,13 @@ xlabel('t', 'fontsize', f.xlab)
 title('Muscle K', 'fontsize', f.title)
 grid on
 
-subplot(nrows,ncols,5)
-hold on
-plot(t,y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
-ylabel('N_{al}', 'fontsize', f.ylab)
-xlabel('t', 'fontsize', f.xlab)
-title('Normalized ALD', 'fontsize', f.title)
-grid on
+% subplot(nrows,ncols,5)
+% hold on
+% plot(t,y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
+% ylabel('N_{al}', 'fontsize', f.ylab)
+% xlabel('t', 'fontsize', f.xlab)
+% title('Normalized ALD', 'fontsize', f.title)
+% grid on
 
 % concentrations
 figure(2)
