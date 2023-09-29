@@ -1,5 +1,5 @@
 % This script is for making the dataframe PrestonData
-
+clear all
 %% serum data
 time_serum = [0,15,30,45,60,90,150,210,270];
 Meal_serum = [4.50408;4.3551;4.08571;4.01633;3.88776;3.86327;3.95306;3.99592;4.11837];%4.50408;

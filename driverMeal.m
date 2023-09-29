@@ -4,8 +4,8 @@ clear all;
 %--------------------
 % User input
 %-------------------
-MealInsulin = 1; % set to 0 for no insulin
-Kamt = 0; %35; % amount of K in meal
+MealInsulin = 0; % set to 0 for no insulin
+Kamt = 35; % amount of K in meal
 MKX = 0; MKXslope = 0; % muscle-kidney cross talk
 %-------------------
 %-------------------
@@ -23,7 +23,7 @@ SS = temp.SS;
 %% Fasting state
 % ODE options
 t0 = 0;
-tf = 510; % 6 hours of fasting
+tf = 6*60; % 6 hours of fasting
 tspan = [t0, tf];
 options = odeset('RelTol',1.0e-6,'AbsTol',1e-9); % ode solver settings
 

@@ -5,9 +5,9 @@
 clear all;
 %% load data
 % Meal Only simulation results
-f_MealOnly = './MealSim/20-Jun-2023_driverMeal_insulin-1_Kin-0_notes-MealOnly_newALDO.mat';
-f_KClOnly = './MealSim/20-Jun-2023_driverMeal_insulin-0_Kin-35_notes-newALDO.mat';
-f_MealKCl = './MealSim/20-Jun-2023_driverMeal_insulin-1_Kin-35_notes-newALDO_MealKCL.mat';
+f_MealOnly = './MealSim/29-Sep-2023_driverMeal_insulin-1_Kin-0_notes-try1.mat';
+f_KClOnly = './MealSim/29-Sep-2023_driverMeal_insulin-0_Kin-35_notes-try1.mat';
+f_MealKCl = './MealSim/29-Sep-2023_driverMeal_insulin-1_Kin-35_notes-try1.mat';
 
 dat1 = load(f_MealOnly);
 dat2 = load(f_KClOnly);

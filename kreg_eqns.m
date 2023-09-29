@@ -34,13 +34,10 @@ A_cdKsec = params(22);
 B_cdKsec = params(23);
 A_cdKreab = params(24);
 ALD_eq = params(25);
-T_al = params(26);
-Csod = params(27);
-xi_par = params(28);
-m_K_ALDO = params(29);
-FF = params(30);
-A_insulin = params(31);
-B_insulin = params(32);
+m_K_ALDO = params(26);
+FF = params(27);
+A_insulin = params(28);
+B_insulin = params(29);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -96,6 +93,7 @@ K_muscle  = M_Kmuscle/V_muscle; % intracellular K concentration
 K_ECFtot  = (M_Kplas + M_Kinter)/(V_plasma + V_interstitial); % total ECF concentration
 
 %% ALD (N_al)
+% equation from Maddah & Hallow 2022
 N_al = exp(m_K_ALDO * (K_ECFtot - Kecf_total));
 C_al = N_al*ALD_eq;
 
