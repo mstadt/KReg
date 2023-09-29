@@ -64,6 +64,8 @@ for i = 1:2:length(varargin)
         Kintake = temp(1);
     elseif strcmp(varargin{i}, 'meal_time')
         meal_start = temp(1);
+    elseif strcmp(varargin{i}, 'highK_eff')
+        highK_eff = temp(1);
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -118,6 +120,10 @@ else
 end
 
 % renal K handling
+if highK_eff
+    GFR = (1 - 0.39) * 0.125;
+    etapsKreab = 0.37 + 0.25; % PT + TAL part
+end
 v.filK = GFR .* v.K_plas;
 v.psKreab = etapsKreab .* v.filK;
 
