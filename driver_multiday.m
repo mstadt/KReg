@@ -11,12 +11,12 @@ doFF = 1; % do FF effect on DT
 Kamt_high = 4 * 78 / 3; % high K intake, per meal
 Kamt_control = 78 / 3; % control K intake, per meal (seems to keep stable here...)
 Kamt_meal = Kamt_high; %Kamt_control; % control sim
-doMKX = 1; % do MKX in the simulation 1: DT K sec, 2: CDKsec, 3: CDKreab
+doMKX = 0; % do MKX in the simulation 1: DT K sec, 2: CDKsec, 3: CDKreab
 
 n_days = 50;
 
-highKeff = 1; % 1/0 if doing
-day_effect = 100;
+highKeff = 2; % 1: PT & GFR effects, 2: PT only, 3: GFR only
+day_effect = -1;
 %------------------
 %------------------
 
@@ -52,7 +52,7 @@ SS = temp.SS;
 %% Intake for multiple day s
 
 if and(highKeff, day_effect <= 1)
-    opts.do_highK = 1;
+    opts.do_highK = highKeff;
 else
     opts.do_highK = 0;
 end
@@ -70,8 +70,8 @@ for ii = 2:n_days
         fprintf('day %s \n', num2str(ii))
     end
     IC = Yvals{ii-1}(end,:);
-    if and(highKeff, ii > day_effect)
-        opts.do_highK = 1;
+    if and(highKeff > 0, ii > day_effect)
+        opts.do_highK = highKeff;
     else
         opts.do_highK = 0;
     end

@@ -6,8 +6,8 @@ clear all;
 f1 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-26_ndays-50_notes-control.mat';
 f2 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-104_ndays-50_notes-lower_highK.mat';
 f3 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-104_ndays-50_notes-lowerKamt_withPTeffect.mat';
-f4 = './MultiDaySim/02-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_MKX-1_MKXSlope-0.1_highKeff-1_ndays-50_notes-originalMKX.mat';
-f5 = './MultiDaySim/02-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_MKX-1_MKXSlope-0.05_highKeff-1_ndays-50_notes-slope=0.05.mat';
+f4 = './MultiDaySim/02-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-2_ndays-50_notes-PTonly.mat';
+f5 = './MultiDaySim/02-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-3_ndays-50_notes-GFRonly.mat';
 
 dat1 = load(f1);
 dat2 = load(f2);
@@ -17,9 +17,9 @@ dat5 = load(f5);
 
 lab1 = 'control K intake';
 lab2 = 'high K - no PT effect';
-lab3 = 'high K - with PT effects';
-lab4 = 'high K- PT effect + MKX (original; slope = 0.1)';
-lab5 = 'high K - PT effect + MKX (slope = 0.05)';
+lab3 = 'high K - with PT + GFR effects';
+lab4 = 'high K - PT effect only';
+lab5 = 'high K - GFR effect only';
 
 %% All the days
 T_all1 = []; Y_all1 = [];
@@ -122,7 +122,8 @@ clf;
 nr = 1; nc = 2;
 lw = 3; lwgray = 2; lsgray = '--';
 cmap = parula(5);
-c1 = cmap(1,:); c2 = cmap(2,:); c3 = cmap(3,:);c4 = cmap(4,:);
+cmap2 = spring(3);
+c1 = cmap(1,:); c2 = cmap(2,:); c3 = cmap(3,:);c4 = cmap2(1,:);c5 = cmap2(2,:);
 cgraymap = gray(5);
 cgray = cgraymap(3,:);
 subplot(nr,nc,1)
