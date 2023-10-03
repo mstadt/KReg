@@ -11,12 +11,13 @@ doFF = 1; % do FF effect on DT
 Kamt_high = 4 * 78 / 3; % high K intake, per meal
 Kamt_control = 78 / 3; % control K intake, per meal (seems to keep stable here...)
 Kamt_meal = Kamt_high; %Kamt_control; % control sim
-doMKX = 0; % do MKX in the simulation 1: DT K sec, 2: CDKsec, 3: CDKreab
+
+doMKX = 0; % do MKX in the simulation 1: DT K sec , 2: CDKsec, 3: CDKreab
 
 n_days = 50;
 
-highKeff = 2; % 1: PT & GFR effects, 2: PT only, 3: GFR only
-day_effect = -1;
+highKeff = 1; % 0: none, 1: PT & GFR effects, 2: PT only, 3: GFR only
+day_effect = -1; % day that effect starts
 %------------------
 %------------------
 
@@ -29,6 +30,7 @@ opts.do_insulin = MealInsulin;
 opts.do_FF = doFF; 
 if doMKX > 0
     if doMKX == 1
+        % slope tries (0.005, 0.01, 0.025, 0.05, 0.075, 0.1)
         MKXslope = 0.1; % dtKsec slope
     elseif doMKX == 2
         MKXslope = 0.1; % cdKsec slope

@@ -5,9 +5,9 @@ clear all;
 %% load data
 f1 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-26_ndays-50_notes-control.mat';
 f2 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-104_ndays-50_notes-lower_highK.mat';
-f3 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-104_ndays-50_notes-lowerKamt_withPTeffect.mat';
-f4 = './MultiDaySim/02-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-2_ndays-50_notes-PTonly.mat';
-f5 = './MultiDaySim/02-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-3_ndays-50_notes-GFRonly.mat';
+f3 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-1_ndays-50_notes-PT_GFR.mat';
+f4 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-2_ndays-50_notes-PTonly.mat';
+f5 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-3_ndays-50_notes-GFRonly.mat';
 
 dat1 = load(f1);
 dat2 = load(f2);
@@ -15,11 +15,11 @@ dat3 = load(f3);
 dat4 = load(f4);
 dat5 = load(f5);
 
-lab1 = 'control K intake';
-lab2 = 'high K - no PT effect';
-lab3 = 'high K - with PT + GFR effects';
-lab4 = 'high K - PT effect only';
-lab5 = 'high K - GFR effect only';
+lab1 = 'Control K^+';
+lab2 = 'High K^+ - no PT effect';
+lab3 = 'High K^+ - PT + GFR effects';
+lab4 = 'High K^+ - only PT effect';
+lab5 = 'High K^+ - only GFR effect';
 
 %% All the days
 T_all1 = []; Y_all1 = [];
@@ -53,7 +53,7 @@ T_all5 = T_all5./24;
 figure(1)
 clf;
 nr = 2; nc = 2;
-lw = 3; lwgray = 2; lsgray = '--';
+lw = 3; lwgray = 3; lsgray = ':';
 f.labs = 18; f.xlab = 18; f.ylab = 18; f.gca = 18; f.leg = 16; f.title = 22;
 cmap = parula(6);
 c1 = cmap(1,:); c2 = cmap(2,:); c3 = cmap(3,:);c4 = cmap(4,:);c5=cmap(5,:);
@@ -116,16 +116,17 @@ title('Intracellular [K^+]', 'fontsize', f.title)
 grid on
 
 legend({lab1, lab2,lab3,lab4,lab5})
-
+%%
 figure(2)
 clf;
 nr = 1; nc = 2;
-lw = 3; lwgray = 2; lsgray = '--';
-cmap = parula(5);
+lw = 3; lwgray = 3; lsgray = ':';
+cmap = parula(4);
 cmap2 = spring(3);
-c1 = cmap(1,:); c2 = cmap(2,:); c3 = cmap(3,:);c4 = cmap2(1,:);c5 = cmap2(2,:);
+c1 = cmap2(1,:); c2 = cmap2(2,:); 
+c3 = cmap(1,:);c4 = cmap(2,:);c5 = cmap(3,:);
 cgraymap = gray(5);
-cgray = cgraymap(3,:);
+cgray = cgraymap(2,:);
 subplot(nr,nc,1)
 hold on
 plot(T_all1,Y_all1(:,2)/dat1.pars.V_plasma, 'linewidth',lw,'color',c1)
@@ -140,7 +141,7 @@ xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Plasma [K^+]', 'fontsize', f.ylab)
 title('Plasma [K^+]', 'fontsize', f.title)
 grid on
-legend({lab1, lab2,lab3,lab4,lab5}, 'fontsize', f.leg, 'location', 'northwest')
+%legend({lab1, lab2,lab3,lab4,lab5}, 'fontsize', f.leg, 'location', 'northwest')
 
 subplot(nr,nc,2)
 hold on
