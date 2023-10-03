@@ -122,12 +122,12 @@ end
 % renal K handling
 if highK_eff
     if highK_eff == 1
-        GFR = (1 - 0.39) * 0.125;
-        etapsKreab = 0.37 + 0.25; % PT + TAL part
+        GFR = (1 - 0.29) * 0.125;
+        etapsKreab = 0.36 + 0.25; % PT + TAL part
     elseif highK_eff == 2
-        etapsKreab = 0.37 + 0.25; % PT + TAL part
+        etapsKreab = 0.36 + 0.25; % PT + TAL part
     elseif highK_eff == 3
-        GFR = (1 - 0.39) * 0.125;
+        GFR = (1 - 0.29) * 0.125;
     end
 end
 v.filK = GFR .* v.K_plas;
