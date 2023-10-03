@@ -218,6 +218,8 @@ AddLetters2Plots(figure(2), {'(a)', '(b)'},...
 
 %% Figure with end points
 figure(3)
+cmap = parula(6);
+b1_c = cmap(1,:); b2_c = cmap(4,:);
 clf;
 subplot(1,2,1)
 labs = {};
@@ -227,6 +229,8 @@ for ii = 2:(length(slope_vals)+1)
 end
 x = 1:length(labs);
 b = bar(x, [ends_MKX(1,:); ends_MKXPTeff(1,:)]);
+b(1).FaceColor = b1_c;
+b(2).FaceColor = b2_c;
 xticklabels(labs)
 yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
@@ -234,10 +238,13 @@ set(gca, 'fontsize', f.gca)
 legend({'No PT + GFR effects', 'with PT + GFR effects'})
 grid on
 ylabel('End intracellular [K^+]')
+xlabel('m_{Kic}')
 
 % K plas bar
 subplot(1,2,2)
 b = bar(x,[ends_MKX(2,:); ends_MKXPTeff(2,:)]);
+b(1).FaceColor = b1_c;
+b(2).FaceColor = b2_c;
 xticklabels(labs)
 yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
@@ -245,6 +252,11 @@ set(gca, 'fontsize', f.gca)
 legend({'No PT + GFR effects', 'with PT + GFR effects'})
 grid on
 ylabel('End plasma [K^+]')
+xlabel('m_{Kic}')
+
+AddLetters2Plots(figure(3), {'(a)', '(b)'},...
+                'HShift', -0.05, 'VShift', -0.06, ...
+                'fontsize', f.labs)
 
 %---------
 % functions
