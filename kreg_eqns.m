@@ -24,20 +24,21 @@ Kmuscle_baseline = params(12);
 Vmax = params(13);
 Km = params(14);
 P_muscle = params(15);
-GFR = params(16);
-etapsKreab = params(17);
+GFR_base = params(16);
+etapsKreab_base = params(17);
 dtKsec_eq = params(18);
 A_dtKsec = params(19);
 B_dtKsec = params(20);
 cdKsec_eq = params(21);
 A_cdKsec = params(22);
 B_cdKsec = params(23);
-A_cdKreab = params(24);
-ALD_eq = params(25);
-m_K_ALDO = params(26);
-FF = params(27);
-A_insulin = params(28);
-B_insulin = params(29);
+alpha_TGF = params(24);
+A_cdKreab = params(25);
+ALD_eq = params(26);
+m_K_ALDO = params(27);
+FF = params(28);
+A_insulin = params(29);
+B_insulin = params(30);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
