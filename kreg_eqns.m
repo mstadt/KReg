@@ -67,8 +67,12 @@ for i = 1:2:length(varargin)
         Kintake = temp(1);
     elseif strcmp(varargin{i}, 'meal_time')
         meal_start = temp(1);
-    elseif strcmp(varargin{i}, 'highK_eff')
-        highK_eff = temp(1);
+%     elseif strcmp(varargin{i}, 'highK_eff')
+%         highK_eff = temp(1);
+    elseif strcmp(varargin{i}, 'TGF_eff')
+        TGF_eff = temp(1);
+        alpha_TGF = temp(2);
+        eta_ptKreab = temp(3);
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -137,19 +141,33 @@ else
 end
 
 % renal K handling
-if highK_eff > 0
-    if highK_eff == 1
-        GFR = (1 - 0.29) * 0.125;
-        etapsKreab = 0.36 + 0.25; % PT + TAL part
-    elseif highK_eff == 2
-        etapsKreab = 0.36 + 0.25; % PT + TAL part
-    elseif highK_eff == 3
-        GFR = (1 - 0.29) * 0.125; % GFR change only
-    else
-        fprintf('What is this highK_eff? %i', highK_eff)
-    end
+
+% if highK_eff > 0
+%     if highK_eff == 1
+%         GFR = (1 - 0.29) * 0.125;
+%         eta_ptKreab = 0.36; % lower fractional PT reab
+%     elseif highK_eff == 2
+%         eta_ptKreab = 0.36; % lower fractional PT reab only
+%     elseif highK_eff == 3
+%         GFR = (1 - 0.29) * 0.125; % GFR change only
+%     else
+%         fprintf('What is this highK_eff? %i', highK_eff)
+%     end
+% end
+
+% NOTE: should be able to make highK_eff happen by changing
+% TGF instead
+
+if TGF_eff == 1
+    GFR = GFR_base + alpha_TGF * (eta_ptKreab - eta_ptKreab_base);
+else
+    GFR = GFR_base; 
+    eta_ptKreab = eta_ptKreab_base;
 end
+
 filK = GFR*K_plas;
+
+etapsKreab = eta_ptKreab + eta_LoHKreab;
 
 psKreab = etapsKreab * filK;
 

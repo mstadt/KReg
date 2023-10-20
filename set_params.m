@@ -31,7 +31,10 @@ pars.P_muscle = (NKA_baseline)/(pars.Kmuscle_baseline - Kecf_baseline);
 
 %% Kidney
 pars.GFR_base   = 0.125; %baseline GFR L/min
-pars.etapsKreab_base = 0.92; % fractional ps K reabsorption, fixed constant
+
+pars.eta_ptKreab_base = 0.67; % fractional PT K reabsorption baseline
+
+pars.eta_LoHKreab = 0.25; % fractional LoH K reabsorption, fixed
 
 pars.dtKsec_eq = 0.041;
 pars.A_dtKsec = 0.3475;
@@ -42,7 +45,13 @@ pars.A_cdKsec = 0.161275;
 pars.B_cdKsec = 0.410711;
 
 %% TGF response
-pars.alpha_TGF = 0.1; % for now this is 0.1, will need to fit....
+
+GFR0 = pars.GFR_base; % baseline GFR
+Tong_HighKeff = 0.29; % Reduction of GFR with high K from Tong
+HighKeff_etaPT = 0.36; % fractional PT K reabsorption at high K (from Tong)
+Base_etaPT = 0.67; % baseline fractional PT K reabsorption
+pars.alpha_TGF = ((1-Tong_KighKeff)*GFR0 - GFR0) / (HighKeff_PT - Base_etaPT);
+%0.1; % for now this is 0.1, will need to fit....
 
 
 %% parameters A and B are divided by 1000 and 100 respectively in k_reg_mod
