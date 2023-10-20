@@ -50,8 +50,10 @@ GFR0 = pars.GFR_base; % baseline GFR
 Tong_HighKeff = 0.29; % Reduction of GFR with high K from Tong
 HighKeff_etaPT = 0.36; % fractional PT K reabsorption at high K (from Tong)
 Base_etaPT = 0.67; % baseline fractional PT K reabsorption
-pars.alpha_TGF = ((1-Tong_KighKeff)*GFR0 - GFR0) / (HighKeff_PT - Base_etaPT);
-%0.1; % for now this is 0.1, will need to fit....
+
+% This is baseline alpha_TGF
+pars.alpha_TGF = ((1-Tong_HighKeff)*GFR0 - GFR0) / (HighKeff_etaPT - Base_etaPT);
+
 
 
 %% parameters A and B are divided by 1000 and 100 respectively in k_reg_mod

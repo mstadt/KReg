@@ -25,20 +25,21 @@ Vmax = params(13);
 Km = params(14);
 P_muscle = params(15);
 GFR_base = params(16);
-etapsKreab_base = params(17);
-dtKsec_eq = params(18);
-A_dtKsec = params(19);
-B_dtKsec = params(20);
-cdKsec_eq = params(21);
-A_cdKsec = params(22);
-B_cdKsec = params(23);
-alpha_TGF = params(24);
-A_cdKreab = params(25);
-ALD_eq = params(26);
-m_K_ALDO = params(27);
-FF = params(28);
-A_insulin = params(29);
-B_insulin = params(30);
+eta_ptKreab_base = params(17);
+eta_LoHKreab = params(18);
+dtKsec_eq = params(19);
+A_dtKsec = params(20);
+B_dtKsec = params(21);
+cdKsec_eq = params(22);
+A_cdKsec = params(23);
+B_cdKsec = params(24);
+alpha_TGF = params(25);
+A_cdKreab = params(26);
+ALD_eq = params(27);
+m_K_ALDO = params(28);
+FF = params(29);
+A_insulin = params(30);
+B_insulin = params(31);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -50,6 +51,7 @@ MKX = 0;
 Kintake = 0;
 meal_start = 0;
 highK_eff = 0;
+TGF_eff = 0;
 for i = 1:2:length(varargin)
     temp = varargin{i+1};
     if strcmp(varargin{i}, 'SS')
