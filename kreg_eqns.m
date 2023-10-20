@@ -47,6 +47,8 @@ do_insulin = true;
 do_FF = true;
 MKX = 0;
 Kintake = 0;
+meal_start = 0;
+highK_eff = 0;
 for i = 1:2:length(varargin)
     temp = varargin{i+1};
     if strcmp(varargin{i}, 'SS')
@@ -62,6 +64,10 @@ for i = 1:2:length(varargin)
         do_FF = temp(1);
     elseif strcmp(varargin{i}, 'Kintake')
         Kintake = temp(1);
+    elseif strcmp(varargin{i}, 'meal_time')
+        meal_start = temp(1);
+    elseif strcmp(varargin{i}, 'highK_eff')
+        highK_eff = temp(1);
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -75,7 +81,7 @@ if do_insulin
     if SS
         t_insulin = t_insulin_ss;
     else
-        t_insulin = t;
+        t_insulin = t - meal_start;
     end
     C_insulin = get_Cinsulin(t_insulin);
 else
@@ -130,7 +136,20 @@ else
 end
 
 % renal K handling
+if highK_eff > 0
+    if highK_eff == 1
+        GFR = (1 - 0.29) * 0.125;
+        etapsKreab = 0.36 + 0.25; % PT + TAL part
+    elseif highK_eff == 2
+        etapsKreab = 0.36 + 0.25; % PT + TAL part
+    elseif highK_eff == 3
+        GFR = (1 - 0.29) * 0.125; % GFR change only
+    else
+        fprintf('What is this highK_eff? %i', highK_eff)
+    end
+end
 filK = GFR*K_plas;
+
 psKreab = etapsKreab * filK;
 
 % distal tubule
