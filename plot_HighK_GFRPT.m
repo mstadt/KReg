@@ -3,11 +3,11 @@
 clear all;
 
 %% load data
-f1 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-104_ndays-50_notes-lower_highK.mat';
-f2 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-1_ndays-50_notes-PT_GFR.mat';
-f3 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-2_ndays-50_notes-PTonly.mat';
-f4 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-3_ndays-50_notes-GFRonly.mat';
-f5 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-26_ndays-50_notes-control.mat';
+f1 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-1_alphaTGF-0.11694_etaPTKreab-0.67_ndays-50_notes-baseline.mat';
+f2 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-1_alphaTGF-0.11694_etaPTKreab-0.36_ndays-50_notes-TongHighK.mat';
+f3 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-3_alphaTGF-0.11694_etaPTKreab-0.36_ndays-50_notes-PTonly.mat';
+f4 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-2_alphaTGF-0.11694_etaPTKreab-0.36_ndays-50_notes-GFRonly.mat';
+f5 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-26_TGFeff-3_alphaTGF-0.11694_etaPTKreab-0.67_ndays-50_notes-control.mat';
 
 dat1 = load(f1);
 dat2 = load(f2);
@@ -16,10 +16,10 @@ dat4 = load(f4);
 dat5 = load(f5);
 
 
-lab1 = 'High K^+ - no PT effect';
-lab2 = 'High K^+ - PT + GFR effects';
-lab3 = 'High K^+ - only PT effect';
-lab4 = 'High K^+ - only GFR effect';
+lab1 = 'High K^+ - no PT/TGF effect';
+lab2 = 'High K^+ - PT + TGF effects';
+lab3 = 'High K^+ - only PT effect'; 
+lab4 = 'High K^+ - only TGF effect';
 lab5 = 'Control K^+';
 
 %% All the days
@@ -114,7 +114,7 @@ set(gca, 'fontsize', f.gca)
 xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Plasma [K^+]', 'fontsize', f.ylab)
 title('Plasma [K^+]', 'fontsize', f.title)
-xlim([0,10])
+xlim([30,40])
 grid on
 
 legend({lab1, lab2,lab3,lab4,lab5}, 'fontsize', f.leg, 'location', 'northwestoutside')

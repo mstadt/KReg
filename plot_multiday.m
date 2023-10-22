@@ -3,23 +3,22 @@
 clear all;
 
 %% load data
-f1 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-26_ndays-50_notes-control.mat';
-f2 = './MultiDaySim/29-Sep-2023_driver_multiday_insulin-1_Kamt_meal-104_ndays-50_notes-lower_highK.mat';
-f3 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-1_ndays-50_notes-PT_GFR.mat';
-f4 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-2_ndays-50_notes-PTonly.mat';
-f5 = './MultiDaySim/03-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_highKeff-3_ndays-50_notes-GFRonly.mat';
-
+f1 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-1_alphaTGF-0.11694_etaPTKreab-0.67_ndays-50_notes-baseline.mat';
+f2 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-1_alphaTGF-0.11694_etaPTKreab-0.36_ndays-50_notes-TongHighK.mat';
+f3 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-3_alphaTGF-0.11694_etaPTKreab-0.36_ndays-50_notes-PTonly.mat';
+f4 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-104_TGFeff-2_alphaTGF-0.11694_etaPTKreab-0.36_ndays-50_notes-GFRonly.mat';
+f5 = './MultiDaySim/22-Oct-2023_driver_multiday_insulin-1_Kamt_meal-26_TGFeff-3_alphaTGF-0.11694_etaPTKreab-0.67_ndays-50_notes-control.mat';
 dat1 = load(f1);
 dat2 = load(f2);
 dat3 = load(f3);
 dat4 = load(f4);
 dat5 = load(f5);
 
-lab1 = 'Control K^+';
-lab2 = 'High K^+ - no PT effect';
-lab3 = 'High K^+ - PT + GFR effects';
-lab4 = 'High K^+ - only PT effect';
-lab5 = 'High K^+ - only GFR effect';
+lab1 = 'High K^+ - no PT/GFR effect';
+lab2 = 'High K^+ - PT + GFR effects';
+lab3 = 'High K^+ - only PT effect'; 
+lab4 = 'High K^+ - only GFR effect';
+lab5 = 'Control K^+';
 
 %% All the days
 T_all1 = []; Y_all1 = [];
@@ -132,8 +131,8 @@ hold on
 plot(T_all1,Y_all1(:,2)/dat1.pars.V_plasma, 'linewidth',lw,'color',c1)
 plot(T_all2,Y_all2(:,2)/dat2.pars.V_plasma, 'linewidth',lw,'color',c2)
 plot(T_all3,Y_all3(:,2)/dat3.pars.V_plasma, 'linewidth',lw,'color',c3)
-plot(T_all4,Y_all4(:,2)/dat4.pars.V_plasma, 'linewidth',lw,'color',c4)
-plot(T_all5,Y_all5(:,2)/dat5.pars.V_plasma, 'linewidth',lw,'color',c5)
+plot(T_all4,Y_all4(:,2)/dat4.pars.V_plasma, 'linewidth',lw,'color',c4, 'linestyle', '-')
+plot(T_all5,Y_all5(:,2)/dat5.pars.V_plasma, 'linewidth',lw,'color',c5, 'linestyle', '-')
 yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
 yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
 set(gca, 'fontsize', f.gca)
@@ -148,8 +147,8 @@ hold on
 plot(T_all1,Y_all1(:,4)/dat1.pars.V_muscle,'linewidth',lw,'color',c1)
 plot(T_all2,Y_all2(:,4)/dat2.pars.V_muscle,'linewidth',lw,'color',c2)
 plot(T_all3,Y_all3(:,4)/dat3.pars.V_muscle,'linewidth',lw,'color',c3)
-plot(T_all4,Y_all4(:,4)/dat4.pars.V_muscle,'linewidth',lw,'color',c4)
-plot(T_all5,Y_all5(:,4)/dat5.pars.V_muscle,'linewidth',lw,'color',c5)
+plot(T_all4,Y_all4(:,4)/dat4.pars.V_muscle,'linewidth',lw,'color',c4, 'linestyle', '-')
+plot(T_all5,Y_all5(:,4)/dat5.pars.V_muscle,'linewidth',lw,'color',c5, 'linestyle', '-')
 yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
 yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
 set(gca, 'fontsize', f.gca)

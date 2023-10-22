@@ -11,35 +11,34 @@ M_Kmuscle = y(4); % amount of K in muscle
 %% set parameter names
 Phi_Kin_ss = params(1);
 t_insulin_ss = params(2);
-tchange = params(3);
-fecal_excretion = params(4);
-kgut = params(5);
-MKgutSS = params(6);
-V_plasma = params(7);
-V_interstitial = params(8);
-V_muscle = params(9);
-Kecf_total = params(10);
-P_ECF = params(11);
-Kmuscle_baseline = params(12);
-Vmax = params(13);
-Km = params(14);
-P_muscle = params(15);
-GFR_base = params(16);
-eta_ptKreab_base = params(17);
-eta_LoHKreab = params(18);
-dtKsec_eq = params(19);
-A_dtKsec = params(20);
-B_dtKsec = params(21);
-cdKsec_eq = params(22);
-A_cdKsec = params(23);
-B_cdKsec = params(24);
-alpha_TGF = params(25);
-A_cdKreab = params(26);
-ALD_eq = params(27);
-m_K_ALDO = params(28);
-FF = params(29);
-A_insulin = params(30);
-B_insulin = params(31);
+fecal_excretion = params(3);
+kgut = params(4);
+MKgutSS = params(5);
+V_plasma = params(6);
+V_interstitial = params(7);
+V_muscle = params(8);
+Kecf_total = params(9);
+P_ECF = params(10);
+Kmuscle_baseline = params(11);
+Vmax = params(12);
+Km = params(13);
+P_muscle = params(14);
+GFR_base = params(15);
+eta_ptKreab_base = params(16);
+eta_LoHKreab = params(17);
+dtKsec_eq = params(18);
+A_dtKsec = params(19);
+B_dtKsec = params(20);
+cdKsec_eq = params(21);
+A_cdKsec = params(22);
+B_cdKsec = params(23);
+alpha_TGF = params(24);
+A_cdKreab = params(25);
+ALD_eq = params(26);
+m_K_ALDO = params(27);
+FF = params(28);
+A_insulin = params(29);
+B_insulin = params(30);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -75,6 +74,9 @@ for i = 1:2:length(varargin)
         TGF_eff = temp(1);
         alpha_TGF = temp(2);
         eta_ptKreab = temp(3);
+%         if TGF_eff
+%             fprintf('doing TGF_eff \n')
+%         end
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -162,6 +164,11 @@ end
 
 if TGF_eff == 1
     GFR = GFR_base + alpha_TGF * (eta_ptKreab - eta_ptKreab_base);
+elseif TGF_eff == 2 % GFR only
+    GFR = GFR_base + alpha_TGF * (eta_ptKreab - eta_ptKreab_base);
+    eta_ptKreab = eta_ptKreab_base; % Keep PT at baseline
+elseif TGF_eff == 3 % PT only
+    GFR = GFR_base;
 else
     GFR = GFR_base; 
     eta_ptKreab = eta_ptKreab_base;

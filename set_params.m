@@ -3,7 +3,6 @@ function pars = set_params()
 %% K intake at SS
 pars.Phi_Kin_ss        = 70/1440; %mEq/min, steady state for Phi_Kin (Preston 2015)
 pars.t_insulin_ss      = 270; % ss t_insulin value
-pars.tchange           = 100; % time to change toward fasting
 
 %% gut parameters
 pars.fecal_excretion = 0.1;
