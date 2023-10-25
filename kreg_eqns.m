@@ -11,33 +11,34 @@ M_Kmuscle = y(4); % amount of K in muscle
 %% set parameter names
 Phi_Kin_ss = params(1);
 t_insulin_ss = params(2);
-tchange = params(3);
-fecal_excretion = params(4);
-kgut = params(5);
-MKgutSS = params(6);
-V_plasma = params(7);
-V_interstitial = params(8);
-V_muscle = params(9);
-Kecf_total = params(10);
-P_ECF = params(11);
-Kmuscle_baseline = params(12);
-Vmax = params(13);
-Km = params(14);
-P_muscle = params(15);
-GFR = params(16);
-etapsKreab = params(17);
+fecal_excretion = params(3);
+kgut = params(4);
+MKgutSS = params(5);
+V_plasma = params(6);
+V_interstitial = params(7);
+V_muscle = params(8);
+Kecf_total = params(9);
+P_ECF = params(10);
+Kmuscle_baseline = params(11);
+Vmax = params(12);
+Km = params(13);
+P_muscle = params(14);
+GFR_base = params(15);
+eta_ptKreab_base = params(16);
+eta_LoHKreab = params(17);
 dtKsec_eq = params(18);
 A_dtKsec = params(19);
 B_dtKsec = params(20);
 cdKsec_eq = params(21);
 A_cdKsec = params(22);
 B_cdKsec = params(23);
-A_cdKreab = params(24);
-ALD_eq = params(25);
-m_K_ALDO = params(26);
-FF = params(27);
-A_insulin = params(28);
-B_insulin = params(29);
+alpha_TGF = params(24);
+A_cdKreab = params(25);
+ALD_eq = params(26);
+m_K_ALDO = params(27);
+FF = params(28);
+A_insulin = params(29);
+B_insulin = params(30);
 
 %% Get variable inputs
 % default settings, varargin is used to change settings
@@ -49,6 +50,7 @@ MKX = 0;
 Kintake = 0;
 meal_start = 0;
 highK_eff = 0;
+TGF_eff = 0;
 for i = 1:2:length(varargin)
     temp = varargin{i+1};
     if strcmp(varargin{i}, 'SS')
@@ -66,8 +68,15 @@ for i = 1:2:length(varargin)
         Kintake = temp(1);
     elseif strcmp(varargin{i}, 'meal_time')
         meal_start = temp(1);
-    elseif strcmp(varargin{i}, 'highK_eff')
-        highK_eff = temp(1);
+%     elseif strcmp(varargin{i}, 'highK_eff')
+%         highK_eff = temp(1);
+    elseif strcmp(varargin{i}, 'TGF_eff')
+        TGF_eff = temp(1);
+        alpha_TGF = temp(2);
+        eta_ptKreab = temp(3);
+%         if TGF_eff
+%             fprintf('doing TGF_eff \n')
+%         end
     else
         disp('WRONG VARARGIN INPUT')
         fprintf('What is this varargin input? %s \n', varargin{i})
@@ -136,19 +145,38 @@ else
 end
 
 % renal K handling
-if highK_eff > 0
-    if highK_eff == 1
-        GFR = (1 - 0.29) * 0.125;
-        etapsKreab = 0.36 + 0.25; % PT + TAL part
-    elseif highK_eff == 2
-        etapsKreab = 0.36 + 0.25; % PT + TAL part
-    elseif highK_eff == 3
-        GFR = (1 - 0.29) * 0.125; % GFR change only
-    else
-        fprintf('What is this highK_eff? %i', highK_eff)
-    end
+
+% if highK_eff > 0
+%     if highK_eff == 1
+%         GFR = (1 - 0.29) * 0.125;
+%         eta_ptKreab = 0.36; % lower fractional PT reab
+%     elseif highK_eff == 2
+%         eta_ptKreab = 0.36; % lower fractional PT reab only
+%     elseif highK_eff == 3
+%         GFR = (1 - 0.29) * 0.125; % GFR change only
+%     else
+%         fprintf('What is this highK_eff? %i', highK_eff)
+%     end
+% end
+
+% NOTE: should be able to make highK_eff happen by changing
+% TGF instead
+
+if TGF_eff == 1
+    GFR = GFR_base + alpha_TGF * (eta_ptKreab - eta_ptKreab_base);
+elseif TGF_eff == 2 % GFR only
+    GFR = GFR_base + alpha_TGF * (eta_ptKreab - eta_ptKreab_base);
+    eta_ptKreab = eta_ptKreab_base; % Keep PT at baseline
+elseif TGF_eff == 3 % PT only
+    GFR = GFR_base;
+else
+    GFR = GFR_base; 
+    eta_ptKreab = eta_ptKreab_base;
 end
+
 filK = GFR*K_plas;
+
+etapsKreab = eta_ptKreab + eta_LoHKreab;
 
 psKreab = etapsKreab * filK;
 

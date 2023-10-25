@@ -3,7 +3,6 @@ function pars = set_params()
 %% K intake at SS
 pars.Phi_Kin_ss        = 70/1440; %mEq/min, steady state for Phi_Kin (Preston 2015)
 pars.t_insulin_ss      = 270; % ss t_insulin value
-pars.tchange           = 100; % time to change toward fasting
 
 %% gut parameters
 pars.fecal_excretion = 0.1;
@@ -30,8 +29,11 @@ pars.P_muscle = (NKA_baseline)/(pars.Kmuscle_baseline - Kecf_baseline);
 
 
 %% Kidney
-pars.GFR   = 0.125; %GFR L/min
-pars.etapsKreab = 0.92; % fractional ps K reabsorption, fixed constant
+pars.GFR_base   = 0.125; %baseline GFR L/min
+
+pars.eta_ptKreab_base = 0.67; % fractional PT K reabsorption baseline
+
+pars.eta_LoHKreab = 0.25; % fractional LoH K reabsorption, fixed
 
 pars.dtKsec_eq = 0.041;
 pars.A_dtKsec = 0.3475;
@@ -40,6 +42,17 @@ pars.B_dtKsec = 0.23792;
 pars.cdKsec_eq = 0.0022;
 pars.A_cdKsec = 0.161275;
 pars.B_cdKsec = 0.410711;
+
+%% TGF response
+
+GFR0 = pars.GFR_base; % baseline GFR
+Tong_HighKeff = 0.29; % Reduction of GFR with high K from Tong
+HighKeff_etaPT = 0.36; % fractional PT K reabsorption at high K (from Tong)
+Base_etaPT = 0.67; % baseline fractional PT K reabsorption
+
+% This is baseline alpha_TGF
+pars.alpha_TGF = ((1-Tong_HighKeff)*GFR0 - GFR0) / (HighKeff_etaPT - Base_etaPT);
+
 
 
 %% parameters A and B are divided by 1000 and 100 respectively in k_reg_mod
