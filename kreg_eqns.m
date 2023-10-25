@@ -162,23 +162,26 @@ end
 % NOTE: should be able to make highK_eff happen by changing
 % TGF instead
 
+eta_psKreab_base = eta_ptKreab_base + eta_LoHKreab;
 if TGF_eff == 1
-    GFR = GFR_base + alpha_TGF * (eta_ptKreab - eta_ptKreab_base);
+    eta_psKreab = eta_ptKreab + eta_LoHKreab;
+    GFR = GFR_base + alpha_TGF * (eta_psKreab - eta_psKreab_base);
 elseif TGF_eff == 2 % GFR only
-    GFR = GFR_base + alpha_TGF * (eta_ptKreab - eta_ptKreab_base);
-    eta_ptKreab = eta_ptKreab_base; % Keep PT at baseline
+    eta_ptKreab = eta_ptKreab_base; % PT K reab is baseline value
+    eta_psKreab = eta_ptKreab + eta_LoHKreab;
+    GFR = GFR_base + alpha_TGF * (eta_psKreab - eta_psKreab_base);
 elseif TGF_eff == 3 % PT only
+    eta_psKreab = eta_ptKreab + eta_LOHKreab;
     GFR = GFR_base;
 else
+    eta_ptKreab = eta_ptKreab_base; % PT K reab is baseline value
+    eta_psKreab = eta_ptKreab + eta_LoHKreab;
     GFR = GFR_base; 
-    eta_ptKreab = eta_ptKreab_base;
 end
 
 filK = GFR*K_plas;
 
-etapsKreab = eta_ptKreab + eta_LoHKreab;
-
-psKreab = etapsKreab * filK;
+psKreab = eta_psKreab * filK;
 
 % distal tubule
 if MKX == 1

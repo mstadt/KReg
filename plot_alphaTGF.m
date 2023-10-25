@@ -21,7 +21,7 @@ for ii = 1:length(alpha_fold)
 
     alpha_TGF = fold_val * pars.alpha_TGF;
 
-    notes = 'vary_alpha_tgf';
+    notes = 'alpha_tgf';
     n_days = 50;
     date_fixed = '25-Oct-2023'; % change date if updating data
 

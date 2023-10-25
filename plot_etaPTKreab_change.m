@@ -1,6 +1,6 @@
 % Plot the results from the eta_PTKreab changing simulations
 clear all;
-eta_PTKreab_vals = [0.2050, 0.2566, 0.3083, 0.36, 0.4117, 0.4633, 0.515, 0.5667, 0.6183, 0.67]; %linspace(0.36, 0.67, 7);
+eta_PTKreab_vals = [0.18,0.24,0.30,0.36,0.43,0.49,0.55,0.61,0.67]; %round(linspace(0.5 * 0.36, 0.67, 9),2);
 % Parameters needed
 V_plasma = 4.5;
 V_muscle = 24;
@@ -13,7 +13,7 @@ labs = cell(length(eta_PTKreab_vals), 1);
 Kend = zeros(2, length(eta_PTKreab_vals)); % row 1: K plasma end point; row 2: K_IC end point
 for ii = 1:length(eta_PTKreab_vals)
     eta_ptKreab = eta_PTKreab_vals(ii);
-    notes = 'etaPTKreab_change';
+    notes = 'etaPTKreab';
     n_days = 50;
     date_fixed = '25-Oct-2023'; % CHANGE DATE IF UPDATING DATA
     fname = strcat('./MultiDaySim/', date_fixed, '_driver_multiday',...
@@ -61,187 +61,7 @@ end
 
 
 
-%% Make figures
-
-% Full simulation plot
-figure(1)
-clf;
-nr = 1; nc =2;
-cmap = turbo(length(eta_PTKreab_vals) + 2);
-lw = 3;  ls = '-';
-cgraymap = gray(5); cgray = cgraymap(2,:);
-lwgray = 3; lsgray = ':';
-f.labs = 18; f.xlab = 18; f.ylab = 18; f.gca = 18; f.leg = 16; f.title = 22;
-
-% K_plasma
-subplot(nr,nc,1)
-hold on
-for ii = 1:length(eta_PTKreab_vals)
-    T = Tvals{ii};
-    Y = Yvals{ii};
-    plot(T, Y(:,2)/V_plasma, 'linewidth', lw, 'linestyle', ls, 'color', cmap(ii,:))
-end
-yline(3.5, 'color', cgray, 'linestyle', lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-yline(5.0, 'color', cgray, 'linestyle', lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-set(gca, 'fontsize', f.gca)
-%legend(labs, 'location', 'best', 'fontsize', f.leg)
-xlabel('Time (days)', 'fontsize', f.xlab)
-ylabel('Plasma [K^+]', 'fontsize', f.ylab)
-%title('Plasma [K^+] for changing \eta_{pt-Kreab}', 'fontsize', f.title)
-grid on
-
-% K_intracellular
-subplot(nr,nc,2)
-hold on
-for ii = 1:length(eta_PTKreab_vals)
-    T = Tvals{ii};
-    Y = Yvals{ii};
-    plot(T, Y(:,4)/V_muscle, 'linewidth', lw, 'linestyle', ls, 'color', cmap(ii,:))
-end
-yline(120, 'color', cgray, 'linestyle', lsgray, 'linewidth', lwgray)
-yline(140, 'color', cgray, 'linestyle', lsgray, 'linewidth', lwgray)
-set(gca, 'fontsize', f.gca)
-legend(labs, 'location', 'best', 'fontsize', f.leg)
-xlabel('Time (days)', 'fontsize', f.xlab)
-ylabel('Intracellular [K^+]', 'fontsize', f.ylab)
-%title('Intracellular [K^+] for changing \eta_{pt-Kreab}', 'fontsize', f.title)
-grid on
-legend(labs, 'location', 'best', 'fontsize', f.leg)
-
-AddLetters2Plots(figure(1), {'(A)', '(B)'},...
-                'HShift', -0.05, 'VShift', -0.06, ...
-                'fontsize', f.labs)
-
-% %% Figure with end points
-% % bar plot
-% figure(2)
-% clf;
-% nr = 1; nc = 2;
-% cmap = turbo(6);
-% b1_c = cmap(1,:); b2_c = cmap(4,:);
-% % K_plasma
-% subplot(nr,nc,1)
-% x = 1:length(labs);
-% b = bar(x, Kend(1,:));
-% b(1).FaceColor = b1_c;
-% xticklabels(labs)
-% yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-% yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-% set(gca, 'fontsize', f.gca)
-% grid on
-% 
-% % K_intracellular
-% subplot(nr,nc,2)
-% x = 1:length(labs);
-% b = bar(x, Kend(2,:));
-% b(1).FaceColor = b2_c;
-% xticklabels(labs)
-% yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-% yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-% set(gca, 'fontsize', f.gca)
-% grid on
-% 
-% AddLetters2Plots(figure(2), {'(A)', '(B)'},...
-%                 'HShift', -0.05, 'VShift', -0.06, ...
-%                 'fontsize', f.labs)
-
-%% Only the points
-figure(4)
-clf;
-ms = '^';
-lw = 2.0;
-marksize = 15;
-nr = 1; nc = 2;
-xlims = [0.21-0.03, 0.7];
-% K_plasma
-subplot(nr,nc,1)
-hold on
-for ii = 1:length(eta_PTKreab_vals)
-    plot(round(eta_PTKreab_vals(ii),2), Kend(1,ii), 'marker', ms, ...
-                    'markerfacecolor', cmap(ii,:), 'color', cmap(ii,:), 'linewidth', lw, ...
-                    'markersize', marksize)
-end
-xticks(round(eta_PTKreab_vals,2))
-yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-set(gca, 'fontsize', f.gca)
-xlim(xlims)
-xlabel("\eta_{pt-Kreab}", 'fontsize', f.xlab)
-ylabel('Plasma [K^+] at end of simulation')
-grid on
-
-% K_intracellular
-subplot(nr,nc,2)
-hold on
-for ii = 1:length(eta_PTKreab_vals)
-    plot(round(eta_PTKreab_vals(ii),2), Kend(2,ii), 'marker', ms, ...
-                    'markerfacecolor', cmap(ii,:), 'color', cmap(ii,:), 'linewidth', lw, ...
-                    'markersize', marksize)
-end
-%xticklabels(labs)
-xticks(round(eta_PTKreab_vals,2))
-yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-set(gca, 'fontsize', f.gca)
-xlim(xlims)
-xlabel("\eta_{pt-Kreab}", 'fontsize', f.xlab)
-ylabel('Intracellular [K^+] at end of simulation')
-grid on
-
-AddLetters2Plots(figure(4), {'(A)', '(B)'},...
-                'HShift', -0.05, 'VShift', -0.06, ...
-                'fontsize', f.labs)
-
-
-
-%% Figure with end points
-% plot
-figure(3)
-clf;
-cmap = turbo(5);
-c1 = cmap(2,:);
-c2 = cmap(4,:);
-ms = '^';
-lw = 2.0;
-marksize = 15;
-nr = 1; nc = 2;
-xlims = [0.21-0.03, 0.7];
-% K_plasma
-subplot(nr,nc,1)
-plot(eta_PTKreab_vals, Kend(1,:), 'marker', ms, ...
-                'markerfacecolor', c1, 'color', c1, 'linewidth', lw, ...
-                'markersize', marksize)
-%xticklabels(labs)
-xticks(round(eta_PTKreab_vals,2))
-yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-set(gca, 'fontsize', f.gca)
-xlim(xlims)
-xlabel("\eta_{pt-Kreab}", 'fontsize', f.xlab)
-ylabel('Plasma [K^+] at end of simulation')
-grid on
-
-% K_intracellular
-subplot(nr,nc,2)
-plot(eta_PTKreab_vals, Kend(2,:), 'marker', ms, ...
-                'markerfacecolor', c2, 'color', c2, 'linewidth', lw, ...
-                'markersize', marksize)
-%xticklabels(labs)
-xticks(round(eta_PTKreab_vals,2))
-yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
-set(gca, 'fontsize', f.gca)
-xlim(xlims)
-xlabel("\eta_{pt-Kreab}", 'fontsize', f.xlab)
-ylabel('Intracellular [K^+] at end of simulation')
-grid on
-
-AddLetters2Plots(figure(3), {'(A)', '(B)'},...
-                'HShift', -0.05, 'VShift', -0.06, ...
-                'fontsize', f.labs)
-
-
-%% Put full simulations and end values together
+%% Make figure
 % Full simulation plot
 figure(5)
 clf;
@@ -293,7 +113,7 @@ legend(labs, 'location', 'best', 'fontsize', f.leg)
 ms = '^';
 lw = 2.0;
 marksize = 15;
-xlims = [0.21-0.03, 0.7];
+xlims = [0.15, 0.7];
 % K_plasma
 subplot(nr,nc,3)
 hold on
