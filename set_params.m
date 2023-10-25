@@ -50,8 +50,10 @@ Tong_HighKeff = 0.29; % Reduction of GFR with high K from Tong
 HighKeff_etaPT = 0.36; % fractional PT K reabsorption at high K (from Tong)
 Base_etaPT = 0.67; % baseline fractional PT K reabsorption
 
+HighKeff_etaPS = HighKeff_etaPT + pars.eta_LoHKreab; % proximal segment reabsorption (high K)
+Base_etaPS = Base_etaPT + pars.eta_LoHKreab; % proximal segment reabsorption (base)
 % This is baseline alpha_TGF
-pars.alpha_TGF = ((1-Tong_HighKeff)*GFR0 - GFR0) / (HighKeff_etaPT - Base_etaPT);
+pars.alpha_TGF = ((1-Tong_HighKeff)*GFR0 - GFR0) / (HighKeff_etaPS - Base_etaPS);
 
 
 
