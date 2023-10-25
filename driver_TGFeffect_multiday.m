@@ -15,16 +15,19 @@ len_meal = 30; % length of meal in minutes
 doFF = 1; % do FF effect on DT
 Kamt_high = 4 * 78 / 3; % high K intake, per meal
 Kamt_control = 78 / 3; % control K intake, per meal (seems to keep stable here...)
-Kamt_meal = Kamt_control; %Kamt_high; %Kamt_control; % control sim
+Kamt_meal = Kamt_high; %Kamt_high; %Kamt_control; % control sim
 
 doMKX = 0; % do MKX in the simulation 1: DT K sec , 2: CDKsec, 3: CDKreab
 
 n_days = 50;
 
-TGF_eff = 3; % do TGF_eff (1: PT + GFR, 2: GFR only, 3: PT only)
+TGF_eff = 1; % do TGF_eff (1: PT + GFR, 2: GFR only, 3: PT only)
 % TGF_eff parameters
-eta_ptKreab = 0.67; % Baseline %0.36; % Tong 2023 %0.67; % baseline
-alpha_TGF = pars.alpha_TGF; % baseline
+eta_ptKreab = 0.36; % Baseline high K %0.36; % Wang 2023 %0.67; % baseline normal
+
+% Fold change
+% 0.5000, 0.6250, 0.7500, 0.8750, 1.0000, 1.1250, 1.2500, 1.3750, 1.5000
+alpha_TGF = 1.125 * pars.alpha_TGF; % baseline
 
 %------------------
 %------------------
