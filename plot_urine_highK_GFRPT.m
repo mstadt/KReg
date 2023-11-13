@@ -253,3 +253,30 @@ grid on
 
 legend({lab1, lab2,lab3,lab4,lab5}, 'fontsize', f.leg, 'location', 'northwest')
 
+
+%% Box plots of the data
+figure(20)
+clf;
+Urine_frac_all = [Urine1_frac;Urine2_frac;Urine3_frac;Urine4_frac;Urine5_frac];
+x = Urine_frac_all;
+labs = {lab1, lab2,lab3,lab4,lab5};
+g1 = repmat({lab1},length(Urine1_frac),1);
+g2 = repmat({lab2},length(Urine2_frac),1);
+g3 = repmat({lab3},length(Urine3_frac),1);
+g4 = repmat({lab4},length(Urine4_frac),1);
+g5 = repmat({lab5},length(Urine5_frac),1);
+
+g = [g1; g2; g3;g4;g5];
+boxplot(x,g);
+hold on
+% b1 = boxplot(Urine1_frac, 'positions', 1); %boxplot(Urine1_frac, 'Labels', lab1);
+% b2 = boxplot(Urine2_frac, 'positions', 2); %boxplot(Urine2_frac, 'Labels', lab2);
+% b3 = boxplot(Urine3_frac, 'positions', 3);
+% b4 = boxplot(Urine4_frac, 'positions', 4);
+% b5 = boxplot(Urine5_frac, 'positions', 5);
+
+set(gca, 'fontsize', f.gca)
+ylabel('Fractional urine K^+ excretion')
+grid on
+
+%b = boxplot(Urine_frac_all)
