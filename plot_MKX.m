@@ -24,7 +24,8 @@ cgray = cgraymap(2,:);
 hold on
 for ii = 1:length(slope_vals)
     MKXslope = slope_vals(ii);
-    fname = strcat('./MultiDaySim/', date, '_driver_multiday',...
+    data_date = '03-Oct-2023';
+    fname = strcat('./MultiDaySim/', data_date, '_driver_multiday',...
                         '_insulin-', num2str(1),...
                         '_Kamt_meal-', num2str(104),...
                         '_MKX-', num2str(1),...
@@ -57,8 +58,8 @@ yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibili
 yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 set(gca, 'fontsize', f.gca)
 xlabel('Time (days)', 'fontsize', f.xlab)
-ylabel('Intracellular [K^+]', 'fontsize', f.ylab)
-title('MKX with no PT effect', 'fontsize', f.title)
+ylabel('Intracellular [K^+] (mmol/L)', 'fontsize', f.ylab)
+title('MKX only (no PT + TGF effects)', 'fontsize', f.title)
 grid on
 ylim([120,280])
 
@@ -70,7 +71,7 @@ subplot(nr,nc,2)
 hold on
 for ii = 1:length(slope_vals)
     MKXslope = slope_vals(ii);
-    fname = strcat('./MultiDaySim/', date, '_driver_multiday',...
+    fname = strcat('./MultiDaySim/', data_date, '_driver_multiday',...
                         '_insulin-', num2str(1),...
                         '_Kamt_meal-', num2str(104),...
                         '_MKX-', num2str(1),...
@@ -98,18 +99,18 @@ lab = 'no MKX';
 ends_MKXPTeff(1, 1) = Y_all(end,4)/dat.pars.V_muscle;
 plot(T_all, Y_all(:,4)/dat.pars.V_muscle, ...
     'linewidth', lw, 'linestyle', ls, 'color', cmap2(2,:), ...
-    'DisplayName', 'PT + GFR effect (no MKX)');
+    'DisplayName', 'PT + TGF effect (no MKX)');
 legend('fontsize', f.leg, 'location', 'northwest')
 yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 set(gca, 'fontsize', f.gca)
 xlabel('Time (days)', 'fontsize', f.xlab)
-ylabel('Intracellular [K^+]', 'fontsize', f.ylab)
-title('PT + GFR effect with MKX', 'fontsize', f.title)
+ylabel('Intracellular [K^+] (mmol/L)', 'fontsize', f.ylab)
+title('MKX with PT + TGF effects', 'fontsize', f.title)
 grid on
 ylim([120,280])
 
-AddLetters2Plots(figure(1), {'(a)', '(b)'},...
+AddLetters2Plots(figure(1), {'(A)', '(B)'},...
                 'HShift', -0.05, 'VShift', -0.06, ...
                 'fontsize', f.labs)
 
@@ -128,7 +129,7 @@ cgray = cgraymap(2,:);
 hold on
 for ii = 1:length(slope_vals)
     MKXslope = slope_vals(ii);
-    fname = strcat('./MultiDaySim/', date, '_driver_multiday',...
+    fname = strcat('./MultiDaySim/', data_date, '_driver_multiday',...
                         '_insulin-', num2str(1),...
                         '_Kamt_meal-', num2str(104),...
                         '_MKX-', num2str(1),...
@@ -163,7 +164,7 @@ yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibili
 set(gca, 'fontsize', f.gca)
 xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Plasma [K^+]', 'fontsize', f.ylab)
-title('MKX with no PT effect', 'fontsize', f.title)
+title('MKX with no PT + TGF effect', 'fontsize', f.title)
 grid on
 ylim([3.5,8.0])
 
@@ -172,7 +173,7 @@ subplot(nr,nc,2)
 hold on
 for ii = 1:length(slope_vals)
     MKXslope = slope_vals(ii);
-    fname = strcat('./MultiDaySim/', date, '_driver_multiday',...
+    fname = strcat('./MultiDaySim/', data_date, '_driver_multiday',...
                         '_insulin-', num2str(1),...
                         '_Kamt_meal-', num2str(104),...
                         '_MKX-', num2str(1),...
@@ -199,19 +200,19 @@ lab = 'no MKX';
 [T_all, Y_all] = convert_dat(dat);
 plot(T_all, Y_all(:,2)/dat.pars.V_plasma, ...
     'linewidth', lw, 'linestyle', ls, 'color', cmap2(2,:), ...
-    'DisplayName', 'PT + GFR effect (no MKX)');
+    'DisplayName', 'PT + TGF effect (no MKX)');
 ends_MKXPTeff(2, 1) = Y_all(end,2)/dat.pars.V_plasma;
 legend('fontsize', f.leg, 'location', 'northwest')
 yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 set(gca, 'fontsize', f.gca)
 xlabel('Time (days)', 'fontsize', f.xlab)
-ylabel('Plasma [K^+]', 'fontsize', f.ylab)
-title('PT + GFR effect with MKX', 'fontsize', f.title)
+ylabel('Plasma [K^+] (mmol/L)', 'fontsize', f.ylab)
+title('PT + TGF effect with MKX', 'fontsize', f.title)
 grid on
 ylim([3.5,8.0])
 
-AddLetters2Plots(figure(2), {'(a)', '(b)'},...
+AddLetters2Plots(figure(2), {'(A)', '(B)'},...
                 'HShift', -0.05, 'VShift', -0.06, ...
                 'fontsize', f.labs)
 
@@ -235,9 +236,9 @@ xticklabels(labs)
 yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 set(gca, 'fontsize', f.gca)
-legend({'No PT + GFR effects', 'with PT + GFR effects'})
+legend({'No PT + TGF effects', 'with PT + TGF effects'})
 grid on
-ylabel('End intracellular [K^+]')
+ylabel('Final intracellular [K^+] (mmol/L)')
 xlabel('m_{Kic}')
 
 % K plas bar
@@ -249,12 +250,12 @@ xticklabels(labs)
 yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 set(gca, 'fontsize', f.gca)
-legend({'No PT + GFR effects', 'with PT + GFR effects'})
+legend({'No PT + TGF effects', 'with PT + TGF effects'})
 grid on
-ylabel('End plasma [K^+]')
+ylabel('Final plasma [K^+] (mmol/L)')
 xlabel('m_{Kic}')
 
-AddLetters2Plots(figure(3), {'(a)', '(b)'},...
+AddLetters2Plots(figure(3), {'(A)', '(B)'},...
                 'HShift', -0.05, 'VShift', -0.06, ...
                 'fontsize', f.labs)
 
