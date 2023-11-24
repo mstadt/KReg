@@ -19,16 +19,16 @@ Kamt_meal = Kamt_high; %Kamt_high; %Kamt_control; % control sim
 
 doMKX = 0; % do MKX in the simulation 1: DT K sec , 2: CDKsec, 3: CDKreab
 
-n_days = 50;
+n_days = 50 %5; %50;
 
-TGF_eff = 1; % do TGF_eff (1: PT + GFR, 2: GFR only, 3: PT only)
+TGF_eff = 2 %1; % do TGF_eff (1: PT + GFR, 2: GFR only, 3: PT only)
 % TGF_eff parameters
-eta_ptKreab = 0.36; % Baseline high K %0.36; % Wang 2023 %0.67; % baseline normal
+eta_ptKreab = 0.67; %0.36; % Baseline high K %0.36; % Wang 2023 %0.67; % baseline normal
 % 0.1800    0.2400    0.3000    0.3600    0.4300    0.4900    0.5500    0.6100    0.6700
 
 % Fold change
 % 0.5000, 0.6250, 0.7500, 0.8750, 1.0000, 1.1250, 1.2500, 1.3750, 1.5000
-alpha_TGF = 1.5 * pars.alpha_TGF; % baseline
+alpha_TGF = 1.0 * pars.alpha_TGF; % baseline
 
 %------------------
 %------------------
