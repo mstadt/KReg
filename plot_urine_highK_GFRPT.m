@@ -246,7 +246,7 @@ UK_frac_stds = [std(Urine1_frac*100),...
 xvals=  [1,2,3,4];
 figure(25)
 clf;
-subplot(1,2,1)
+subplot(1,2,2)
 hold on
 % Simulation data
 
@@ -294,7 +294,7 @@ UK_stds = [std(Urine1_stats(:,6)),...
                         std(Urine3_stats(:,6)),...
                         std(Urine4_stats(:,6))];
 xvals=  [1,2,3,4,5];
-subplot(1,2,2)
+subplot(1,2,1)
 hold on
 % Simulation data
 

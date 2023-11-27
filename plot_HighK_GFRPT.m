@@ -62,15 +62,15 @@ figure(2)
 clf;
 nr = 1; nc = 2;
 f.labs = 18; f.xlab = 18; f.ylab = 18; f.gca = 18; f.leg = 16; f.title = 22;
-lw = 3; lwgray = 3; lsgray = ':';
+lw = 3; lwgray = 4.5; lsgray = ':';
 ls1 = '-'; ls2 = '-'; ls3 = '-'; ls4 = '-'; ls5 = '-';
 cmap = parula(3);
 cmap2 = spring(3);
 c1 = cmap2(1,:); c2 = cmap(1,:); 
 c3 = cmap(2,:);c4 = cmap2(2,:);
 %c4 = cmap(3,:);%c5 = cmap2(2,:);
-cgraymap = gray(5);
-cgray = cgraymap(2,:);
+cgraymap = gray(6);
+cgray = cgraymap(1,:);
 subplot(nr,nc,1)
 hold on
 plot(T_all1,Y_all1(:,2)/dat1.pars.V_plasma, 'linewidth',lw,'linestyle', ls1, 'color',c1)
@@ -83,7 +83,7 @@ yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
 set(gca, 'fontsize', f.gca)
 xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Plasma [K^+] (mmol/L)', 'fontsize', f.ylab)
-ylim([3.5,8.5])
+ylim([3.4,8.5])
 %title('Plasma [K^+]', 'fontsize', f.title)
 grid on
 legend({lab1, lab2,lab3,lab4}, 'fontsize', f.leg, 'location', 'northwest')
@@ -99,6 +99,7 @@ plot(T_all4,Y_all4(:,4)/dat4.pars.V_muscle,'linewidth',lw,'linestyle', ls4, 'col
 yline(120,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
 yline(140,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray)
 set(gca, 'fontsize', f.gca)
+ylim([115,280])
 xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Intracellular [K^+] (mmol/L)', 'fontsize', f.ylab)
 %title('Intracellular [K^+]', 'fontsize', f.title)
