@@ -15,12 +15,12 @@ clf;
 nc = 2; nr = 1;
 subplot(nr,nc,1)
 f.labs = 18; f.xlab = 18; f.ylab = 18; f.gca = 18; f.leg = 16; f.title = 22;
-lw = 3; lwgray = 3; lsgray = ':';
+lw = 3; lwgray = 4.5; lsgray = ':';
 ls = '-';
 cmap = parula(length(slope_vals));
 cmap2 = spring(4);
 cgraymap = gray(5);
-cgray = cgraymap(2,:);
+cgray = cgraymap(1,:);
 hold on
 for ii = 1:length(slope_vals)
     MKXslope = slope_vals(ii);
@@ -61,7 +61,7 @@ xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Intracellular [K^+] (mmol/L)', 'fontsize', f.ylab)
 title('MKX only (no PT + TGF effects)', 'fontsize', f.title)
 grid on
-ylim([120,280])
+ylim([110,280])
 
 %% Figure 1b
 % MKX with PT effects
@@ -108,7 +108,7 @@ xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Intracellular [K^+] (mmol/L)', 'fontsize', f.ylab)
 title('MKX with PT + TGF effects', 'fontsize', f.title)
 grid on
-ylim([120,280])
+ylim([110,280])
 
 AddLetters2Plots(figure(1), {'(A)', '(B)'},...
                 'HShift', -0.05, 'VShift', -0.06, ...
@@ -120,12 +120,12 @@ clf;
 nc = 2; nr = 1;
 subplot(nr,nc,1)
 f.labs = 18; f.xlab = 18; f.ylab = 18; f.gca = 18; f.leg = 16; f.title = 22;
-lw = 3; lwgray = 3; lsgray = ':';
+lw = 3; lwgray = 4.5; lsgray = ':';
 ls = '-';
 cmap = parula(length(slope_vals));
 cmap2 = spring(4);
 cgraymap = gray(5);
-cgray = cgraymap(2,:);
+cgray = cgraymap(1,:);
 hold on
 for ii = 1:length(slope_vals)
     MKXslope = slope_vals(ii);

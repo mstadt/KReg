@@ -68,9 +68,12 @@ clf;
 nr = 2; nc =2;
 cmap = turbo(length(eta_PTKreab_vals) + 2);
 lw = 3;  ls = '-';
-cgraymap = gray(5); cgray = cgraymap(2,:);
-lwgray = 3; lsgray = ':';
+cgraymap = gray(5); cgray = cgraymap(1,:);
+lwgray = 4.5; lsgray = ':';
 f.labs = 18; f.xlab = 18; f.ylab = 16; f.gca = 16; f.leg = 14; f.title = 22;
+
+ylims_muscle = [110,280];
+ylims_plas = [3.4,8];
 
 % K_plasma
 subplot(nr,nc,1)
@@ -86,6 +89,7 @@ set(gca, 'fontsize', f.gca)
 %legend(labs, 'location', 'best', 'fontsize', f.leg)
 xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Plasma [K^+] (mmol/L)', 'fontsize', f.ylab)
+ylim(ylims_plas)
 %title('Plasma [K^+] for changing \eta_{pt-Kreab}', 'fontsize', f.title)
 grid on
 legend(labs, 'location', 'best', 'fontsize', f.leg)
@@ -104,6 +108,7 @@ set(gca, 'fontsize', f.gca)
 legend(labs, 'location', 'best', 'fontsize', f.leg)
 xlabel('Time (days)', 'fontsize', f.xlab)
 ylabel('Intracellular [K^+] (mmol/L)', 'fontsize', f.ylab)
+ylim(ylims_muscle)
 %title('Intracellular [K^+] for changing \eta_{pt-Kreab}', 'fontsize', f.title)
 grid on
 legend(labs, 'location', 'best', 'fontsize', f.leg)
@@ -127,7 +132,7 @@ yline(3.5,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibili
 yline(5.0,'color',cgray,'linestyle',lsgray, 'linewidth', lwgray, 'HandleVisibility', 'off')
 set(gca, 'fontsize', f.gca)
 xlim(xlims)
-ylim([3.0,8.0])
+ylim(ylims_plas)
 xlabel("\eta_{pt-Kreab}", 'fontsize', f.xlab)
 ylabel('Final Plasma [K^+] (mmol/L)')
 grid on
@@ -148,6 +153,7 @@ set(gca, 'fontsize', f.gca)
 xlim(xlims)
 xlabel("\eta_{pt-Kreab}", 'fontsize', f.xlab)
 ylabel('Final Intracellular [K^+] (mmol/L)')
+ylim(ylims_muscle)
 grid on
 
 AddLetters2Plots(figure(5), {'(A1)', '(B1)', '(A2)', '(B2)'},...
