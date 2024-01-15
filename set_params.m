@@ -72,6 +72,7 @@ pars.m_K_ALDO = 0.5; %951.2/1000; % adjust for mL to L
 %% effects
 pars.FF = 0.250274; 
 
-pars.A_insulin = 0.999789;
-pars.B_insulin =  0.6645;
+pars.A_insulin = 1.11;
+%pars.A_insulin = 0.999789;
+%pars.B_insulin =  0.6645;
 end %set_params

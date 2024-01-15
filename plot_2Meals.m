@@ -2,7 +2,7 @@
 
 clear all;
 %% load data
-f1 =  './MealSim/11-Jan-2024_driverMeal_insulin-1_Kin-0_notes-oldins.mat'%'./MealSim/OriginalModel_MealOnly.mat';
+f1 =  './MealSim/15-Jan-2024_driverMeal_insulin-1_Kin-0_notes-updateins.mat'%'./MealSim/11-Jan-2024_driverMeal_insulin-1_Kin-0_notes-oldins.mat'%'./MealSim/OriginalModel_MealOnly.mat';
 f2 = './MealSim/11-Jan-2024_driverMeal_insulin-1_Kin-0_notes-newins.mat' %'./MealSim/02-Jun-2023_driverMeal_insulin-1_Kin-0_notes-MealOnly.mat';
 
 dat1 = load(f1);
