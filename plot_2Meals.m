@@ -2,14 +2,14 @@
 
 clear all;
 %% load data
-f1 = './MealSim/OriginalModel_MealOnly.mat';
-f2 = './MealSim/02-Jun-2023_driverMeal_insulin-1_Kin-0_notes-MealOnly.mat';
+f1 =  './MealSim/11-Jan-2024_driverMeal_insulin-1_Kin-0_notes-oldins.mat'%'./MealSim/OriginalModel_MealOnly.mat';
+f2 = './MealSim/11-Jan-2024_driverMeal_insulin-1_Kin-0_notes-newins.mat' %'./MealSim/02-Jun-2023_driverMeal_insulin-1_Kin-0_notes-MealOnly.mat';
 
 dat1 = load(f1);
 dat2 = load(f2);
 
-lab1 = 'old KCl only';
-lab2 = 'new sim';
+lab1 = 'orig insulin';
+lab2 = 'new insulin';
 
 %% make figures
 fprintf('making figures \n')
@@ -66,14 +66,14 @@ xlabel('t', 'fontsize', f.xlab)
 title('Muscle K', 'fontsize', f.title)
 grid on
 
-subplot(nrows,ncols,5)
-hold on
-plot(dat1.t,dat1.y(:,5),'linewidth',lw,'color',c1, 'linestyle',ls1)
-plot(dat2.t,dat2.y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
-ylabel('N_{al}', 'fontsize', f.ylab)
-xlabel('t', 'fontsize', f.xlab)
-title('Normalized ALD', 'fontsize', f.title)
-grid on
+% subplot(nrows,ncols,5)
+% hold on
+% plot(dat1.t,dat1.y(:,5),'linewidth',lw,'color',c1, 'linestyle',ls1)
+% plot(dat2.t,dat2.y(:,5),'linewidth',lw,'color',c2, 'linestyle',ls2)
+% ylabel('N_{al}', 'fontsize', f.ylab)
+% xlabel('t', 'fontsize', f.xlab)
+% title('Normalized ALD', 'fontsize', f.title)
+% grid on
 legend(leglabs, 'fontsize', f.leg)
 
 % concentrations

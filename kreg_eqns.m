@@ -217,8 +217,14 @@ rho_al = (66.4 + 0.273*C_al)./89.6050;
 L = 100; x0 = 0.5381; k = 1.069;
 ins_A = A_insulin; ins_B = 100*B_insulin;
 temp = (ins_A.*(L./(1+exp(-k.*(log10(C_insulin)-log10(x0)))))+ ins_B)./100;
+max_rho = 1.11;
+m = (max_rho - 1.0)/(0.325 - get_Cinsulin(t_insulin_ss));
+b = max_rho - 0.325 * m;
 if do_insulin
-    rho_insulin = max(1.0,temp);
+    rho_insulin = max(1.0, m*C_insulin + b);
+    %disp(C_insulin)
+    %disp(rho_insulin)
+    %rho_insulin = max(1.0,temp);
     %disp(C_insulin)
     %disp(temp)
     %disp(rho_insulin)
